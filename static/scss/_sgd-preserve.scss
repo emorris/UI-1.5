@@ -1,0 +1,42 @@
+/* 
+Styles to preserve OLD SGD Site look.
+These are new styles to keep the old look and feel.
+Original styles when needed, kept in other scss files, e.g.
+	_sgd-preserve-header.scss
+header, main and footer modified from original site's */
+#main-header, #content-wrapper, #main-footer {
+	margin: 0 auto;
+	width: 1000px;
+}
+
+#main-header { height: 130px; }
+#main-footer {
+	color: rgb(255,255,255);
+  height: 90px;
+  background: rgb(145, 144, 183);
+	@include background-image(linear-gradient(top, #9190B7 0%, #615F8F 100%));
+	/*background: rgb(145, 144, 183);
+	background: -moz-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);
+	background: -webkit-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);
+	background: -o-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);
+	background: -ms-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);
+	background: linear-gradient(0deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%); */
+}
+
+
+/* Page header and tabbed navigation */
+header h1 {
+	font-size: 20px;
+  height: 10px;
+  padding: 16px 0;
+  display: inline;
+  }
+  
+#page-title {
+	text-align: center;
+	padding-top: 15px;
+	}
+	
+a.help {
+    vertical-align: super;
+}

@@ -1,0 +1,118 @@
+/* from style.css - preserve sgd header */
+#logo
+{
+  float: left;
+  width: 400px;
+  height: 90px;
+  background: #ffffff url(/wp-content/uploads/2011/10/logo.gif) top left no-repeat;
+}
+
+#logo a#homelink
+{
+ display: block;
+ width: 400px;
+ height: 90px;
+ text-decoration: none;
+ float: left;
+}
+
+#headerright
+{
+  float: left;
+  width: 600px;
+  height: 90px;
+}
+
+#headerlinks
+{
+  text-align: right;
+  padding-top: 15px;
+  width: 600px;
+}
+
+#header #headerlinks a
+{
+  text-decoration: none;
+  color: #000000;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 0px;
+  border: none;
+}
+
+#header #headerlinks #headermenu
+{
+  float: right;
+}
+
+#header #headerlinks #headermenu ul li
+{
+  float: left;
+  list-style-type: none;
+  text-align: left;
+  padding-right: 15px;
+}
+
+#header #headerlinks #headermenu ul li a
+{
+  font-size: 12px;
+  display: block;
+  height: 20px;
+  line-height: 20px;
+  text-decoration: none;
+  color: 000000;
+  text-align: left;
+  padding: 0px;
+  background: transparent;
+  font-weight: bold;
+}
+
+#header #headerlinks #headermenu ul li a:hover
+{
+  text-decoration: underline;
+}
+
+
+#header #headerlinks a#rss
+{
+  display: block;
+  width: 17px;
+  height: 17px;
+  background: #ffffff url(/wp-content/uploads/2011/07/rss.gif) top left no-repeat;
+  border: none;
+  float: right;
+  margin: 2px 3px 0px 0px; 
+}
+
+#header #headerlinks a#facebook
+{
+  display: block;
+  width: 17px;
+  height: 17px;
+  background: #ffffff url(/wp-content/uploads/2011/07/facebook.gif) top left no-repeat;
+  border: none;
+  float: right;
+  margin: 2px 3px 0px 0px;     
+}
+
+#header #headerlinks a#twitter
+{
+  display: block;
+  width: 17px;
+  height: 17px;
+  background: #ffffff url(/wp-content/uploads/2011/07/twitter.gif) top left no-repeat;
+  border: none;
+  float: right;
+  margin: 2px 3px 0px 0px;     
+}
+
+#header #headerlinks a#email
+{
+  display: block;
+  width: 17px;
+  height: 17px;
+  background: #ffffff url(/wp-content/uploads/2011/07/email.gif) top left no-repeat;
+  border: none;
+  float: right;
+  margin: 2px 0px 0px 0px;   
+}

@@ -1,0 +1,99 @@
+/* from sgd/Site.css
+Styles for tabs */
+
+#tab {
+    float: left;
+    font-family: Helvetica,sans-serif;
+    font-size: 10pt;
+    font-weight: normal;
+    margin: 0;
+    min-width: 960px;
+    width: 100%;
+    overflow: hidden;
+}
+#tab ul {
+    list-style: none outside none;
+    margin: 0;
+    padding: 10px 10px 0;
+}
+#tab li {
+    background: url("../imgs/TabBlankRt.gif") no-repeat scroll right top transparent;
+    float: left;
+    margin-top: 11px;
+    padding: 0;
+}
+#tab span {
+    background: url("../imgs/TabBlankLft.gif") no-repeat scroll left top transparent;
+    display: block;
+    float: left;
+    padding: 4px 10px 1px;
+}
+#other_tab_image {
+}
+
+#tab span {
+    float: none;
+}
+#tab #current {
+    background: url("../imgs/TabSelectRt.gif") no-repeat scroll right top transparent;
+    height: 35px;
+    margin: 1px 0 0;
+}
+#tab #current span {
+    background: url("../imgs/TabSelectLft.gif") no-repeat scroll left top transparent;
+    margin: 0;
+    padding: 8px 10px 7px;
+    vertical-align: bottom;
+}
+#tab a:link {
+    color: black;
+    text-decoration: none;
+}
+#subtabs a:link {
+    color: black;
+    text-decoration: none;
+}
+#tab a:visited {
+    color: black;
+    text-decoration: none;
+}
+#subtabs a:visited {
+    color: black;
+    text-decoration: none;
+}
+#tab a:hover {
+    color: blue;
+    text-decoration: none;
+}
+#subtabs a:hover {
+    color: blue;
+    text-decoration: none;
+}
+#shaded_line {
+    background: url("../imgs/Backgroundtile2.gif") repeat-x scroll 0 0 transparent;
+    float: left;
+    height: 24px;
+    min-width: 960px;
+    width: 100%;
+}
+#subtabs {
+    font-family: Helvetica,sans-serif;
+    font-size: 10pt;
+    font-style: normal;
+    font-weight: normal;
+    margin-left: 480px;
+    margin-top: 5px;
+}
+#select_subtab {
+    font-weight: bold;
+}
+
+div.spacer {
+    clear: both;
+    padding: 1px 0;
+    position: relative;
+}
+
+.no_display {
+    display: none;
+}
