@@ -1,3 +1,78 @@
-{{ extends 'base.html' }}
+{% extends 'base.html' %}
 
-<div id='home_page'></div>
+{% block page_title %}{{ query }} Interaction {% endblock %} 
+
+{% block page_content %}
+	<form><input type="hidden" id="query" value="{{ query }}"></query>
+
+
+	<div class="grid-container">
+		<div id="main" class="row">
+
+		{% include 'interaction-tabs.html' %}
+
+		{% include 'interaction-stacked-nav.html' %} 
+
+			<div id="page-content" class="span9"> 
+
+			<section id='interactions'><h2>Distinct Interactions for <span class='sect-title'></span></h2></section>
+
+			<hr>
+
+			<section id='resources'><h2>External Links for <span class='sect-title'></span></h2></section>
+
+			<hr>
+<section id='analyze'>
+<div id='further_analysis'>
+<h2 class='alt_table_header'>Analyze gene list: further analyze the gene list displayed above or download information for this list</h2>
+
+<table class='result_table_border'>
+
+<thead>
+<tr class='alt_table_header'>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<th class='table_header'>Further Analysis:</th>   <td>  <!-- : /share/cvs/org/yeastgenome/templates/Reports/LocusReport/Interactions/form_link.tmpl,v  -->
+<a class="fake" onclick="analyzeList(goTermFinder_,'loci')">GO Term Finder</a>
+<br>Find common features of genes displayed above <form action='http://pastry.stanford.edu/cgi-bin/GO/goTermFinder.pl' id='goTermFinder_' name='goTermFinder_' class='popup' method='POST'>
+<div>
+<input id="self_goTermFinder_" type="hidden" name="loci" value="YBL045C" ></div>
+</form>
+  </td>   <td>  <!-- : /share/cvs/org/yeastgenome/templates/Reports/LocusReport/Interactions/form_link.tmpl,v  -->
+<a class="fake" onclick="analyzeList(goSlimMapper_,'loci')">GO Slim Mapper</a>
+<br>Sort genes displayed above into broad categories <form action='http://pastry.stanford.edu/cgi-bin/GO/goSlimMapper.pl' id='goSlimMapper_' name='goSlimMapper_' class='popup' method='POST'>
+<div>
+<input id="self_goSlimMapper_" type="hidden" name="loci" value="YBL045C" ></div>
+</form>
+  </td>   <td>  <!-- : /share/cvs/org/yeastgenome/templates/Reports/LocusReport/Interactions/Attic/ym_form_link.tmpl,v  -->
+<a class="fake" onclick="analyzeListYeastMine(expression_search_,'search_string', '')">SPELL</a>
+<br>View expression data for genes displayed above <form action='http://spell.yeastgenome.org/search/show_results' id='expression_search_' name='expression_search_' class='popup' method='POST'>
+<div>
+</div>
+</form>
+  </td>  </tr>
+
+<tr>
+<th class ='table_header'>Download:</th>   <td colspan='2'>  <a href='http://pastry.stanford.edu/cgi-bin/interactions.pl?rm=tab_download&amp;feature_name=YBL045C'>Download Unfiltered Data</a><br>Download data for the <em>entire</em> gene list in a tab-delimited file </td>   <td colspan='2'>  <!-- : /share/cvs/org/yeastgenome/templates/Reports/LocusReport/Interactions/Attic/ym_form_link.tmpl,v  -->
+<a class="fake" onclick="analyzeListYeastMine(BD2_,'externalids', 'ORF')">Download options</a>
+<br>Send Gene list to YeastMine for further download options including Sequence, Coordinates, GO annotation, Interactions, Phenotypes etc. <form action='http://yeastmine.yeastgenome.org/yeastmine/portal.do' id='BD2_' name='BD2_' class='popup' method='POST'>
+<div>
+</div>
+</form>
+ </td>  </tr>
+</tbody>
+</table>
+
+
+</div>
+</section> <!-- end analyze section -->
+
+</div><!-- end page-content -->
+</div><!-- end main -->
+</div><!-- end grid-container -->
+</form><!-- end hidden input -->
+
+{% endblock %}

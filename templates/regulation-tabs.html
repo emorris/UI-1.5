@@ -1,0 +1,24 @@
+{% block tab_content %} 
+<nav id="tab">
+			<ul>     
+				<li><a href="http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid=" class='tab-link'><span>Summary</span></a></li>     
+				<li><a href="http://www.yeastgenome.org/cgi-bin/locusHistory.pl?dbid=" class='tab-link'><span>Locus History</span></a></li>
+				<li><a href="http://www.yeastgenome.org/cgi-bin/reference/litGuide.pl?dbid=" class='tab-link'><span>Literature</span></a></li>     
+				<li><a href="http://www.yeastgenome.org/cgi-bin/GO/goAnnotation.pl?dbid=" class='tab-link'><span>Gene Ontology</span></a></li>     
+				<li><a href="http://www.yeastgenome.org/cgi-bin/phenotype/phenotype.fpl?dbid=" class='tab-link'><span>Phenotype</span></a></li>     
+				<li><a href="/interaction/" class='tab-link'><span>Interactions</span></a></li>     
+				<li><a href="http://www.yeastgenome.org/cgi-bin/expression/expressionConnection.pl?type=summary&amp;dbid=" class='tab-link'><span>Expression</span></a></li>     
+				<li id="current"><span>Regulation</span></li>
+				<li><a href="http://www.yeastgenome.org/cgi-bin/protein/proteinPage.pl?dbid=" class='tab-link'><span>Protein</span></a></li>     
+				<li><a href="http://www.yeastgenome.org/cgi-bin/locusWiki.pl?dbid=" class='tab-link'><span>Wiki</span></a></li>   
+			</ul>
+		</nav>
+		<div id="shaded_line"> 
+			<ul id="subtabs" class="inline no_display">   
+				<li><a href="http://www.yeastgenome.org/cgi-bin/protein/proteinPage.pl?dbid=" class='tab-link'>Protein Info</a>  ,  </li>   
+				<li><a href="http://www.yeastgenome.org/cgi-bin/protein/domainPage.pl?dbid=" class='tab-link'>Domains/Motifs</a>  ,  </li>   
+				<li><a href="http://www.yeastgenome.org/cgi-bin/protein/proteinProperty.pl?dbid=" class='tab-link'>Physico-chemical Props</a>  </li>
+			</ul>
+ 		</div>
+
+{% endblock %}

@@ -3,23 +3,20 @@
 /************************************************
 *	Footer  									*
 ************************************************/
-/*   #footer no longer needed, defined elsewhere
-#footer    
-{
+
+#footer { 
   text-align: left;   
   width: 1000px;
   height: 90px;	
- 	margin: 0px auto;
+ margin: 0px auto;
   color: #ffffff;
-	background: rgb(145, 144, 183);
-	background: -moz-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);
-	background: -webkit-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);
-	background: -o-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);
-	background: -ms-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);
-	background: linear-gradient(0deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);	
+background: rgb(145, 144, 183);
+ background: -moz-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%); 	
+background: -webkit-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);  	
+ background: -o-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);  	
+background: -ms-linear-gradient(270deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%);  	
+background: linear-gradient(0deg, rgb(145, 144, 183) 0%, rgb(97, 95, 143) 100%); 
 }
-*/
-
 
 #footertext
 {
@@ -79,3 +76,4 @@
 .padlft10 { padding-left: 10px; }
 .padlft50 { padding-left: 50px; }
 .padlft25 { padding-left: 25px; }
+

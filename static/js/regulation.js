@@ -1,49 +1,44 @@
-$(document).ready( function () {
+
+$(document).ready ( function() {
 
 	var query = $('#query').val();
-
-	$('#footer-holder').load('http://www.yeastgenome.org/cgi-bin/footer.pl');
-
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/gene/display_name/'+query, function(data) {
-		var display_name = data.display_name;
-
-	     	$('.sect-title').append(data.title_name);
-	        $('.protein-name').append(data.protein_name);
-
-		$('a.tab-link').each(function() {
-			var href = $(this).attr('href');	
-			$(this).attr('href', href + data.dbid);
-		});
-	});
-
-
+ // console.log('query: ' + query);
+ 
 	load_summary(query);	
 	load_bind_logo(query);
 	load_pred_bind_sites(query);	
-	load_expt_bind_sites(query);
+	load_expt_bind_sites(query); 
 	load_reg_targets(query);
 	load_go_processes(query);
 	load_domains(query);
 	load_regulators(query);
 
-}); // end document ready
 
+ $('#page-nav').affix({
+	offset:$('#page-nav').position()
+});
+
+}); // end document ready
 
 function get_feat_info(query) {
 	var query = query
 
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/gene/summary_name/'+query,
+	$.getJSON('http://sgd-dev-2.stanford.edu:5757/gene/summary_name/'+query,
 
 	 function(data) {
 	
  		return data;
 	});
+
+
 }
 
 function load_summary(query) {
 	var query = query;
+
+//	console.log("sum:" + $('#paragraph').position().top);
 	
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/summary/'+query, function(data) {
+	$.getJSON('http://sgd-dev-2.stanford.edu:5757/regulation/summary/'+query, function(data) {
 	   
 		var summary = data.summary;
 	        var refs = []; 
@@ -52,19 +47,31 @@ function load_summary(query) {
 		
 
 	    // alert(data.publication[0].citation);
-
+	
 	     	$.each(data.publication, function(index, obj) {
 			var num = index + 1;
 
-	         	 $("#ref-list").append("<div class='citation'>" + obj.citation + "; PMID: <a href='http://yeastgenome.org/cgi-bin/reference/reference.pl?pmid=" + obj.pmid + "'>"+obj.pmid+"</a><div>");
+	         	 $("#ref-list").append("<div class='citation'>" + obj.citation + "; PMID:<a href='http://yeastgenome.org/cgi-bin/reference/reference.pl?pmid=" + obj.pmid + "'>"+obj.pmid+"</a></div>");
 		});
-});
+
+//		console.log("after sum: " + $('#paragraph').position().top);
+		refresh_scrollspy();
+	});
 }
 
 function load_bind_logo(query) {
 	var query = query;
 	
-	$('#binding-logo').append('<img src="/static/imgs/bind-site-seq-logo.png" alt="Gal4p Binding Site Sequence Logo">');
+//	$.getJSON('http://sgd-dev-2.stanford.edu:5757/regulation/motif/'+query, function($) {
+//		each.data(data, function(index, row) {
+			var url = 'http://yetfasco.ccbr.utoronto.ca/MotBiewLong.php?PME_sys_qf2=';
+			$('#binding-logo').append('<a href="' + url + '"><img src="/static/imgs/bind-site-seq-logo.png" alt="Gal4p Binding Site Sequence Logo"></a>');
+//	
+//			$('#binding-logo').append('<a href="' + url + row.motifid + '"><img src="/static/imgs/YeTFaSCo_Logos/' + row.name + '_' + row.motifid + '.' + row.submotif +'.png" alt="Gal4p Binding Site Sequence Logo"></a>');
+//		});
+//
+//		refresh_scrollspy();
+//	});
 }
 
 function load_pred_bind_sites(query) {
@@ -75,7 +82,7 @@ function load_pred_bind_sites(query) {
 	$("#pred-circos-modal").append("<div id='pred-circos' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button><h3 id=\"pred-Modal\">Circos image of predicted binding sites</h3></div><div class=\"modal-body\"><img src=\"/static/imgs/circos-lg.png\"></div><div class=\"modal-footer\"><button class=\"btn\" data-dismiss=\"modal\" aria-hidden=\"true\">Close</button></div></div>");
 
 	
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/predicted_binding_site/'+feat, function(data) {
+	$.getJSON('http://sgd-dev-2.stanford.edu:5757/regulation/predicted_binding_site/'+feat, function(data) {
 		
 
 		$("#pred-table").append("<table id='predict-bind-site-table'><thead><tr><th># Intergenic Sites</th><th># Intragenic Sites</th><th>p-value</th></tr></thead><tbody>");
@@ -92,6 +99,7 @@ function load_pred_bind_sites(query) {
 			$('#predict-bind-site-table').dataTable();
 		}
 
+		refresh_scrollspy();
 	}); // end getJSON
 	
 } // end load_pred_bind_sites
@@ -101,7 +109,7 @@ function load_expt_bind_sites(query) {
 
 	var query = query;
 	
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/experimental_binding_site/'+ query, function(data) { 	
+	$.getJSON('http://sgd-dev-2.stanford.edu:5757/regulation/experimental_binding_site/'+ query, function(data) { 	
 		console.log("expt#" + data);
 		$('#expt-bind-site-num').append(data);
 	});
@@ -109,6 +117,8 @@ function load_expt_bind_sites(query) {
 
 // expt-circos-modal (lg img)
 	$("#expt-circos-modal").append("<div id='expt-circos' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'><div class=\"modal-header\"><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button><h3 id=\"myModalLabel\">Circos image of experimental binding sites</h3></div><div class=\"modal-body\"><img src=\"/static/imgs/circos-lg.png\"></div><div class=\"modal-footer\"><button class=\"btn\" data-dismiss=\"modal\" aria-hidden=\"true\">Close</button></div></div>");
+
+	refresh_scrollspy();
 
 } // end expt_bind_sites
 
@@ -119,7 +129,7 @@ function load_reg_targets(query) {
 	var cit_link = 'http://www.yeastgenome.org/cgi-bin/reference/reference.pl?pubmed=';
 	var feat_link = 'http://yeastgenome.org/cgi-bin/locus.fpl?dbid='
 
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/target/' + query, function(data) {
+	$.getJSON('http://sgd-dev-2.stanford.edu:5757/regulation/target/' + query, function(data) {
 		$("#num-targets").append(data.length);
 
 		$("#regulatory-targets").append("<table id='target-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>Reference</th><th>Source</th></tr></thead><tbody>");
@@ -133,6 +143,7 @@ function load_reg_targets(query) {
 			$('#target-table').dataTable();
 		}
 
+		refresh_scrollspy();
 	});
 	
 
@@ -143,7 +154,7 @@ function load_go_processes(query) {
 	var feat = query;
 	var go_url = 'http://yeastgenome.org/cgi-bin/GO/goTerm.pl?goid=';
 	
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/shared_go_process/' + feat, function(data) {
+	$.getJSON('http://sgd-dev-2.stanford.edu:5757/regulation/shared_go_process/' + feat, function(data) {
 
 		$("#shared-GO-processes").append("<table id='GO-table'><thead><tr><th>GO Term</th><th>P-value</th><th>Number of genes</th></tr></thead><tbody>");
 		$.each(data, function(index, obj) {
@@ -157,6 +168,8 @@ function load_go_processes(query) {
 		if (data.length > 10) {
 			$('#GO-table').dataTable();
 		}
+
+		refresh_scrollspy();
 	});
 	
 } // end go_processes
@@ -171,7 +184,7 @@ function load_domains(feat_name) {
 
 	$("#pBrowse").append("<div><a href='"+ pbrowse_link +"'><img id='pbrowse_img' src='" + pbrowse + "'></img></a></div>");
 	
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/domain/' + query, function(data) {
+	$.getJSON('http://sgd-dev-2.stanford.edu:5757/regulation/domain/' + query, function(data) {
 		
 		$("#domains").append("<div><table id='jaspar-table'><thead><tr><th>Jaspar Class</th><th>Jaspar Family</th></tr></thead><tbody>");
 		$.each(data, function(index, obj) {
@@ -183,6 +196,7 @@ function load_domains(feat_name) {
 			$('#jaspar-table').dataTable();
 
 		}
+		refresh_scrollspy();
 
 	});
 
@@ -195,7 +209,7 @@ function load_regulators(query) {
 	var cit_link = "http://yeastgenome.org/cgi-bin/reference/reference.pl?pubmed=";
 	var gene_link = 'http://yeastgenome.org/cgi-bin/locus.fpl?locus=';
 
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/regulator/' + query, function(data) {
+	$.getJSON('http://sgd-dev-2.stanford.edu:5757/regulation/regulator/' + query, function(data) {
 		
 		
 		$('#num-regs').append(data.length);
@@ -210,9 +224,16 @@ function load_regulators(query) {
 			$('#regulator-table').dataTable();
 		}
 
+		refresh_scrollspy();
+
 	});
+}
 
-
+function refresh_scrollspy() {
+   $('[data-spy="scroll"]').each(function () {
+    var $spy = $(this).scrollspy('refresh')
+//	console.log("SUMM POS: " + $('#summary').position().top);
+    });
 }
 
 function linkGenes(text, display_name) {
@@ -222,7 +243,7 @@ function linkGenes(text, display_name) {
 	var gene_name = nameArray[0];
 	var feat_name = nameArray[1];
 
-	console.log("before: "+ linkedArray);
+	console.log("before:"+ linkedArray);
 
 	$.each(linkTextArray, function(index, word) {
 		if (word.length > 3 && word.length < 8) {
@@ -230,7 +251,7 @@ function linkGenes(text, display_name) {
 		var no_punc = word.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"");
 		var cleanWord = no_punc.replace(/\s{2,}/g," ");
 
-			$.getJSON('http://sgd-dev-2.stanford.edu:5000/gene/display_name/'+cleanWord, function(word_data) {
+			$.getJSON('http://sgd-dev-2.stanford.edu:5757/gene/display_name/'+cleanWord, function(word_data) {
 	
 				if (word_data.display_name == cleanWord && (word_data.display_name != query && word_data.dbid != query)) {
 					linkedArray[index] = "<a href='http://yeastgenome.org/cgi-bin/locus.fpl?locus="+ feat_name +"'>"+word+"</a>";
