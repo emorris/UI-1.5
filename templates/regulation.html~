@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 
-{% block page_title %}{{ query }} Regulation {% endblock %}
+{% block title %} {{ query }} Regulation {% endblock %}
+
+{% block page_title %}	<div id="page-title">
+
+		<h1><a href="#"><span class='sect-title'></span> </a></h1>
+		<a href="http://www.yeastgenome.org/help/PhysGenIntDetailsHelp.html" class="help">
+			<img src="http://www.yeastgenome.org/images/icon_help_circle_dark.png" alt="Help">
+		</a>
+		</div>
+{% endblock %}
 
 {% block page_content %}
 	<form><input type="hidden" id="query" value="{{ query }}"></form>
@@ -17,81 +26,15 @@
 			<div id="page-content" class="span9"> 
 		
 				<h1 id="top"><a href="#" class='sect-title'></a> Regulation</h1>
+				<section id='summary'></section>
+				<section id='refs'></section>
+				<section id='binding-site-seq-logos'></section>
+				<section id='predicted-binding-sites'></section>
+				<section id='regulatory-targets'></section>
+				<section id='shared-GO-processes'></section>
+				<section id='domains'></section>
+				<section id='regulators'></section>
 	
-				<section id="summary">
-				<div id='paragraph'></div>
- 				<section id='refs'><h3>References</h3>
-				<div id='ref-list'></div>
-				</section>
-			
-				</section><!-- #summary -->
-		
-				<hr>
-		
-				<section id="binding-site-seq-logo">
-					<h2><span class='protein-name'></span> Binding Site Sequence Logo</h2>
-			
-					<span id='binding-logo'></span>
-			
-				
-				</section><!-- #binding-site-seq-logo -->
-	
-				<hr>
-		
-				<section id="predicted-binding-sites">
-					<h2>Predicted <span class='protein-name'></span> Binding Sites</h2>
-
-					<div id='pred-table'></div>
-
-					<div class='circos' id='pred-circos'>
-						<a href='#pred-circos' role='button' data-toggle='modal'><img src="{{ url_for('static', filename='imgs/circos_sm.png') }}"></a>
-					</div>
-
-					<div id='pred-circos-modal'></div>
-								
-				</section><!-- #predicted-binding-sites -->
-	
-				<hr>
-		
-				<section id="binding-site-summary">
-					<h2>Summary of Experimentally Determined <span class='protein-name'></span> Binding Sites</h2>
-			
-					<p>There are <span id='expt-bind-site-num'></span> experimentally determined <span class='protein-name'></span> binding sites in the genome.</p>
-
-					<div class='circos'>
-					<a href='#expt-circos' role='button' data-toggle='modal'><img src="{{ url_for('static', filename='imgs/circos_sm.png') }}"></a>
-					</div>
-					<div id='expt-circos-modal'></div>
-					
-				</section><!-- #binding-site-summary -->
-	
-				<hr>
-		
-				<section id="regulatory-targets">
-					<h2><span class='protein-name'></span> Regulatory Targets (<span id='num-targets'></span> total)</h2>
-				</section><!-- #regulatory-tagets -->
-	
-				<hr>
-			
-				<section id="shared-GO-processes">
-					<h2>Shared GO Processes Among <span class='protein-name'></span> Regulatory Targets</h2>
-			
-				</section><!-- #shared-GO-processes -->
-	
-				<hr>
-		
-				<section id="domains">
-					<h2><span class='protein-namejob'></span> Domains</h2>
-			
-					<span id='pBrowse'></span>
-							
-				</section><!-- #domains -->
-	
-				<hr>
-		
-				<section id="regulators">
-					<h2>Regulators of <span class='sect-title'></span> (<span id='num-regs'></span> total)</h2>
-				</section><!-- #regulators -->
 			</div><!-- #page-content -->
 
 		</div><!-- .grid-container -->	

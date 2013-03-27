@@ -6,7 +6,7 @@
 <head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>{% block page_title %}{% endblock %} , SGD</title>
+		<title>{% block title %}{% endblock %} , SGD</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -33,21 +33,17 @@
 <div id="content-wrapper">
 
 	<header>
-		<div id="page-title">
-		<h1><a href="#"><span class='sect-title'></span></a></h1>
-		<a href="http://www.yeastgenome.org/help/PhysGenIntDetailsHelp.html" class="help">
-			<img src="http://www.yeastgenome.org/images/icon_help_circle_dark.png" alt="Help">
-		</a>
-		</div>
-		
+	
+	{% block page_title %}{% endblock %} 		
 		{% block tab_content %}{% endblock %} 
 
  		<div class="spacer"></div>
 </header>
 
 
-{% block page_content %}{% endblock %}
+{% block page_content %} {{ query }}{% endblock %}
 
+<hr>
 <section id='footer-holder'></section>
 
 <!-- javascript -->

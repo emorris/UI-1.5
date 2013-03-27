@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 
-{% block page_title %}{{ query }} Interaction {% endblock %} 
+{% block title %}{{ query }} Interaction {% endblock %} 
+
+{% block page_title %}	<div id="page-title">
+
+		<h1><a href="#"><span class='sect-title'></span> </a></h1>
+		<a href="http://www.yeastgenome.org/help/PhysGenIntDetailsHelp.html" class="help">
+			<img src="http://www.yeastgenome.org/images/icon_help_circle_dark.png" alt="Help">
+		</a>
+		</div>
+{% endblock %}
 
 {% block page_content %}
 	<form><input type="hidden" id="query" value="{{ query }}"></query>
@@ -39,7 +48,7 @@
 <a class="fake" onclick="analyzeList(goTermFinder_,'loci')">GO Term Finder</a>
 <br>Find common features of genes displayed above <form action='http://pastry.stanford.edu/cgi-bin/GO/goTermFinder.pl' id='goTermFinder_' name='goTermFinder_' class='popup' method='POST'>
 <div>
-<input id="self_goTermFinder_" type="hidden" name="loci" value="YBL045C" ></div>
+<input id="self_goTermFinder_" type="hidden" name="loci" value="<span class='feat_name'></span>" ></div>
 </form>
   </td>   <td>  <!-- : /share/cvs/org/yeastgenome/templates/Reports/LocusReport/Interactions/form_link.tmpl,v  -->
 <a class="fake" onclick="analyzeList(goSlimMapper_,'loci')">GO Slim Mapper</a>
@@ -47,7 +56,7 @@
 <div>
 <input id="self_goSlimMapper_" type="hidden" name="loci" value="YBL045C" ></div>
 </form>
-  </td>   <td>  <!-- : /share/cvs/org/yeastgenome/templates/Reports/LocusReport/Interactions/Attic/ym_form_link.tmpl,v  -->
+  </td>   <td>  
 <a class="fake" onclick="analyzeListYeastMine(expression_search_,'search_string', '')">SPELL</a>
 <br>View expression data for genes displayed above <form action='http://spell.yeastgenome.org/search/show_results' id='expression_search_' name='expression_search_' class='popup' method='POST'>
 <div>
@@ -66,7 +75,6 @@
 </tbody>
 </table>
 
-
 </div>
 </section> <!-- end analyze section -->
 
@@ -75,4 +83,7 @@
 </div><!-- end grid-container -->
 </form><!-- end hidden input -->
 
+
 {% endblock %}
+
+{% block special_js %}	<script src="{{ url_for('static', filename='js/interaction.js') }}"></script> {% endblock %}

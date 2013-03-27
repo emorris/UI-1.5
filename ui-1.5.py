@@ -16,6 +16,11 @@ def interaction(query):
     return render_template('interaction.html',
                            query = query)
 
+@app.route('/circos/<img>')
+def display_image(img):
+    return render_template('image.html',
+                           file = img)
+
 if __name__ == '__main__':
     app.run('sgd-dev-2.stanford.edu', 5050, debug=True)
     

@@ -33,3 +33,18 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+## scss stuff
+.sass-cache/
+*.DS_Store
+original/
+static/css/bootstrap.css
+static/css/responsive.css
+static/css/style.css
+
+##backup stuff
+*~
+#*#
+
+## ignore images ##
+*.png

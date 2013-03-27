@@ -164,6 +164,13 @@ $navBorderColor: rgb(204,204,204);
 //}
 
 
+/* for citations */
+.citation {
+	padding: 0px;
+	margin: 0px;
+	padding-bottom: 5px;
+}
+
 /* pbrowse img */
 //#pbrowse_img {
 //	width: 200px;

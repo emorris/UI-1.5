@@ -16,7 +16,7 @@ table {
 // BASELINE STYLES
 // ---------------
 
-.table {
+table {
   width: 100%;
   margin-bottom: $baseLineHeight;
   // Cells
@@ -31,6 +31,12 @@ table {
   th {
     font-weight: bold;
   }
+
+// color for thead tr
+  thead tr {
+	   background-color: $tableBackgroundHeader; // light purple
+  }
+
   // Bottom align for column headings
   thead th {
     vertical-align: bottom;
@@ -203,6 +209,7 @@ table th[class*="span"],
   &.error td {
     background-color: $errorBackground;
   }
+
   &.warning td {
     background-color: $warningBackground;
   }
@@ -224,5 +231,20 @@ table th[class*="span"],
   }
   &.info:hover td {
     background-color: darken($infoBackground, 5%);
+  }
+}
+
+// styling to override dataTables.css zebra striping and header row background color
+.dataTable {
+  thead tr {
+     background-color: $tableBackgroundHeader; // tableBackgroundAccent;
+  }
+  tbody {
+    tr.odd, tr.odd td.sorting_1 { 
+      background-color: $tableBackground; 
+    }
+    tr.even, tr.even td.sorting_1 {
+      background-color: $tableBackgroundAccent;
+    }
   }
 }

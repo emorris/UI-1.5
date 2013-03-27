@@ -10,6 +10,7 @@
 {
   text-align: right;
   padding-top: 5px;
+  margin: 0px;
   width: 600px;
 
 	 p { font-size: 11px;
@@ -22,7 +23,26 @@
   			text-decoration: none;
 		}
 	}
+	form { margin: 0px;
+		padding: 0px;
+		background-color: #FFFFFF;
+	    color: #000000;
+   	 font-family: arial,sans-serif;
+   		 font-size: 11px;
+		
+		input { padding: 0px;
+			margin: 0px;
+			font-size: 11px;
+			color: black;
+			line-height: 13px;
+		}
+	}
 
+}
+#header #headerlinks {
+	padding-top: 15px;
+	text-align: right;
+	width: 600px;
 }
 
 #s {
@@ -34,7 +54,7 @@
 }
 
 #go {
-    background: url(/wp-content/uploads/2011/07/go.gif) no-repeat scroll left top #FFFFFF;
+    background: url(/static/imgs/go.gif) no-repeat scroll left top #FFFFFF;
     border-width: 0;
     height: 25px;
     margin: 0;
@@ -224,6 +244,10 @@ div.clearfloats { clear: both; }
   float: right;
 }
 
+#header #headermenu {
+ margin-top: -10px;
+}
+
 #header #headerlinks #headermenu ul li
 {
   float: left;
@@ -244,13 +268,13 @@ div.clearfloats { clear: both; }
   padding: 0px;
   background: transparent;
   font-weight: bold;
+  margin-top: 0px;
 }
 
 #header #headerlinks #headermenu ul li a:hover
 {
   text-decoration: underline;
 }
-
 
 #header #headerlinks a#rss
 {
