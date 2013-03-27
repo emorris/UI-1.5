@@ -16,16 +16,16 @@ $(document).ready ( function() {
 		load_pred_bind_sites(gene_name, data.protein_name);	
 		load_expt_bind_sites(gene_name, data.protein_name); 
 		load_reg_targets(gene_name, data.protein_name);
-		load_go_processes(gene_name, data.protein_naem);
+		load_go_processes(gene_name, data.protein_name);
 		load_domains(gene_name, data.protein_name);
 		load_regulators(gene_name, data.title_name);
 
 });
 
- $(document).ajaxStop(function() {
-	refresh_scrollspy();
+// $(document).ajaxStop(function() {
+//	refresh_scrollspy();
 
- });
+// });
 
 
  $('#page-nav').affix({

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block page_title %} Circos image {% endblock %}
+{% block page_content %} 
+
+<div id='image'>
+
+<img src="{{ url_for('static', filename='imgs/%s' % file ) }}">
+
+</div>
+
+{% endblock %}

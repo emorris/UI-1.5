@@ -18,7 +18,7 @@ $(document).ready ( function() {
 		load_reg_targets(gene_name, data.protein_name);
 		load_go_processes(gene_name, data.protein_naem);
 		load_domains(gene_name, data.protein_name);
-		load_regulators(gene_name);
+		load_regulators(gene_name, data.title_name);
 
 });
 
@@ -54,7 +54,7 @@ $(document).ready ( function() {
 function refresh_scrollspy() {
    $('[data-spy="scroll"]').each(function () {
     var $spy = $(this).scrollspy('refresh')
-	console.log("SUMM POS: " + $('#summary').position().top);
+//	console.log("SUMM POS: " + $spy.position().top);
     });
 }
 
@@ -237,7 +237,7 @@ function load_reg_targets(query, protein) {
 			console.log('No regulatory targets loaded');
 			hide_nav('regulatory-targets');
 		} else {
-			$("#regulatory-targets").append("<h2><span class='protein-name'></span> Regulatory Targets (<span id='num-targets'></span> total)</h2>");
+			$("#regulatory-targets").append("<h2>"+ prot_name + " Regulatory Targets (<span id='num-targets'></span> total)</h2>");
 	
 			$("#regulatory-targets").append("<table id='target-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>Reference</th><th>Source</th></tr></thead><tbody>");
 		
@@ -262,9 +262,10 @@ function load_reg_targets(query, protein) {
 } // end load_reg_targets
 
 
-function load_go_processes(query) {
+function load_go_processes(query, protein) {
 
 	var feat = query;
+	var protein = protein;
 	var go_url = 'http://yeastgenome.org/cgi-bin/GO/goTerm.pl?goid=';
 	
 	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/shared_go_process/' + feat)
@@ -274,7 +275,7 @@ function load_go_processes(query) {
 			hide_nav('shared-GO-processes');
 		} else {
 		
-			$("#shared-GO-processes").append("<h2>Shared GO Processes Among <span class='protein-name'></span> Regulatory Targets</h2>");	
+			$("#shared-GO-processes").append("<h2>Shared GO Processes Among " + protein + " Regulatory Targets</h2>");	
 			$("#shared-GO-processes").append("<table id='GO-table'><thead><tr><th>GO Term</th><th>P-value</th><th>Number of genes</th></tr></thead><tbody>");
 
 			$.each(data, function(index, obj) {	
@@ -327,9 +328,11 @@ function load_domains(feat_name, protein) {
 	.always(function() { refresh_scrollspy(); });
 }
 
-function load_regulators(query) {
+function load_regulators(query,feat_title) {
 	
 	var query = query;
+	var display = feat_title;
+
 	var cit_link = "http://yeastgenome.org/cgi-bin/reference/reference.pl?pubmed=";
 	var gene_link = 'http://yeastgenome.org/cgi-bin/locus.fpl?locus=';
 
@@ -338,7 +341,7 @@ function load_regulators(query) {
 		if ($.isEmptyObject(data)) {
 			console.log('no regulators returned');
 		} else {
-			$('#regulators').append("<h2>Regulators of <span class='sect-title'></span> (<span id='num-regs'></span> total)</h2>");
+			$('#regulators').append("<h2>Regulators of " + display + " (<span id='num-regs'></span> total)</h2>");
 
 			$('#num-regs').append(data.length);
 		
