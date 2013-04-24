@@ -1,31 +1,13 @@
- var windowSizeArray = [ "width=1200,height=1200",
-                            "width=1200,height=1200,scrollbars=yes" ];
-
 $(document).ready ( function() {
 
-	var query = $('#query').val();
+	 console.log('query: ' + display_name);
 
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/gene/display_name/'+query, function(data) {
-
-		var gene_name = data.display_name;
-	
-		 console.log('query: ' + gene_name);
-
-		load_summary(gene_name);	
-		load_bind_logo(gene_name, data.protein_name);
-		load_pred_bind_sites(gene_name, data.protein_name);	
-		load_expt_bind_sites(gene_name, data.protein_name); 
-		load_reg_targets(gene_name, data.protein_name);
-		load_go_processes(gene_name, data.protein_name);
-		load_domains(gene_name, data.protein_name);
-		load_regulators(gene_name, data.title_name);
-
-});
-
-// $(document).ajaxStop(function() {
-//	refresh_scrollspy();
-
-// });
+	load_summary(dbid); 
+	load_domains(dbid, protein_name);
+	load_bind_logo(dbid, protein_name);
+	load_bind_sites(dbid, protein_name);	
+	load_reg_targets(dbid, protein_name);
+	load_regulators(dbid, title_name);
 
 
  $('#page-nav').affix({
@@ -33,54 +15,16 @@ $(document).ready ( function() {
 });
 
 
-    $('.newWindow').click(function (event){
- 
-            var url = $(this).attr("href");
-            var windowName = "popUp";//$(this).attr("name");
-            var windowSize = windowSizeArray[ $(this).attr("rel") ];
- 
-            window.open(url, windowName, windowSize);
- 
-            event.preventDefault();
- 
-        });
-
-	$('.close_link').replaceWith('</a>');
-
-
 }); // end document ready
 
+num_reg_targets = "";   // number to be defined in load_reg_targets process
 
-function refresh_scrollspy() {
-   $('[data-spy="scroll"]').each(function () {
-    var $spy = $(this).scrollspy('refresh')
-//	console.log("SUMM POS: " + $spy.position().top);
-    });
-}
-
-function hide_nav(section) {
-	var sect_id = section;
-	
-	console.log("hide :" + sect_id);
-	$("#" + sect_id + "-li").hide();
-}
-
-function get_feat_info(query) {
-	var query = query
-
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/gene/display_name/'+query,  function(data) {
-	
- 		return data;
-	});
-
-
-}
-
+//********** LOAD SUMMARY AND REFS **********************//
 
 function load_summary(query) {
 	var query = query;
 
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/summary/'+query)
+	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/summary/'+query)
 	.done(function(data) {
 		if ($.isEmptyObject(data)) {
 			console.log("Empty object");
@@ -102,34 +46,40 @@ function load_summary(query) {
 		    	 	$.each(data.publication, function(index, obj) {
 					var num = index + 1;
 	
-	        	 		 $("#ref-list").append("<div class='citation'>" + obj.citation + "; PMID:<a href='http://yeastgenome.org/cgi-bin/reference/reference.pl?pmid=" + obj.pmid + "'>"+obj.pmid+"</a></div>");
+					var citArray = obj.citation.split(") ");
+					citArray[0] = '<a href=' + ref_url + '>' + citArray[0] + ')</a>';
+					
+	        	 		 $("#ref-list").append("<div class='citation'>" + citArray.join(" ") + "</div>");
 				});
 	
-				$("#refs").append("<hr>");
-
 			} // end if
+		 //	$('#refs').append("<hr>");
 		} // end else
-	})
-	.always(function() { refresh_scrollspy(); });
+	refresh_scrollspy(); 
+	});
 }
 
+//************ LOAD BINDING SITE MOTIFS  ***************//
 
 function load_bind_logo(query, protein) {
 	var query = query;
 
 	var prot_name = protein;
-//	var data = new Array();
-	
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/logos/'+query)
+		
+	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/logos/'+query)
 	.done(function(data) {
 		if ($.isEmptyObject(data)) {
-			console.log("Empty logo obj");
+		//	console.log("Empty logo obj");
 			hide_nav('binding-site-seq-logos');
 
 		} else {
-			$('#binding-site-seq-logos').append("<h2>" + prot_name + " Binding Site Sequence Logo</h2><!-- #binding-site-seq-logo -->");
-		
-			console.log('data: ' + data);
+			$('#binding-site-seq-logos').append("<hr>");
+
+			$('#binding-site-seq-logos').append("<h2>" + prot_name + 
+				" Binding Site Motifs <span class='pull-right'><small><em> \
+				Click on a motif to view <a href='http://yetfasco.ccbr.utoronto.ca'>YeTFaSCo</a> record</small></em></span></h4>");
+
+		//	console.log('data: ' + data);
 
 		$.each(data, function(index, row) {
 			var img_name = $.trim(row);
@@ -139,56 +89,138 @@ function load_bind_logo(query, protein) {
 				
 			var url = 'http://yetfasco.ccbr.utoronto.ca/MotViewLong.php?PME_sys_qf2='+ link[1];
 
-//			console.log(row + "* NEW URL: " + url );
-
-			$('#binding-site-seq-logos').append('<a href="' + url + '"><img src="/static/imgs/YeTFaSCo_Logos/' + row + '" alt="Binding Site Sequence Logo"></a>');
+//		//	console.log(row + "* NEW URL: " + url );
+		
+			$('#binding-site-seq-logos').append('<a href="' + url + '"><img class="yetfasc"  src="/static/imgs/YeTFaSCo_Logos/' + row + '" alt="Binding Site Sequence Logo"></a>');
 		});
 
-		$('#binding-site-seq-logos').append("<hr>");
+	
 		} // end else
-	})
-	.always(function() { refresh_scrollspy(); });
+	refresh_scrollspy();
+	});
 }
 
+//*************** EXPT AND PREDICTED BINDING SITE DATA **************//
 
-function load_pred_bind_sites(query, protein) {
+function load_bind_sites(query, protein) {
 	var feat = query;
 	var img_name = 'circos-lg.png';
 	var prot = protein;
 
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/predicted_binding_site/'+feat)
+	var predicted = $.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/predicted_binding_site/'+ feat)
 	.done(function(data) {
-		if ($.isEmptyObject(data)) {
-			console.log("No pred binding sites returned");
-			hide_nav('predicted-binding-sites');
-		} else {
-			$("#predicted-binding-sites").append("<h2>Predicted " + prot + " Binding Sites</h2><div id='pred-table'></div><div class='circos'><img id='pred-img' src='/static/imgs/circos_sm.png'></a></div><div id='pred-circos-modal'></div>");
+		console.log('retrieved predicted data');
 
-			$("#pred-table").append("<table id='predict-bind-site-table'><thead><tr><th># Intergenic Sites</th><th># Intragenic Sites</th><th>p-value</th></tr></thead><tbody>");
+		if ($.isEmptyObject(data)) { // no predicted binding site data -- check for expt data
+
+			$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/experimental_binding_site/'+ feat)
+			.done(function(e_data) {  
+
+			    if($.isPlainObject(e_data)) {  // no expt or pred binding site data
+
+				console.log("No pred or expt binding sites returned");
+
+				hide_nav('predicted-binding-sites');
+
+			    } else {  // only expt data; no pred. binding data
+				
+		    		$("#binding-sites").append("<div class='spacer'><hr></div>");
+
+				$("#binding-sites").append("<h2>Predicted and Experimental Binding Sites</h2>");
+				$("binding-sites").append("<div id='binding-sites-table' class='span5'></div>");
+			
+			// 	$("#binding-sites").append("<h4>There are " + e_data + " experimentally determined " + protein +" binding sites in the genome.</h4> \
+			//	$("#binding-sites").append("<div class='circos span3'><img id='binding-sites-img' src='/static/imgs/circos_sm.png'></div>");
+		//	console.log("#: " + data);
+
+		//	var img = $('#binding-sites-img').attr('src');
+
+			//$('#binding-sites-img').replaceWith('<a href="/circos/' + img_name + '" rel="1" class="newWindow"><img src="' + img + '"></a>');
+
+			$("#binding-sites").append("<hr>");
+	
+			}
+		 }); // end getJSON for expt. data
+
+		} else {  // has pred binding site data
+
+			
+		    	$("#binding-sites").append("<div class='spacer'><hr></div>");
+			
+			$("#binding-sites").append("<h2>Predicted and Experimental Binding Sites</h2>");
+			$("#binding-sites").append("<div id='binding-sites-table'></div>"); 
+//			"<div class='circos span3'><img id='binding-sites-img' src='/static/imgs/circos_sm.png'></div>");
+
+			$("#binding-sites-table").append("<table id='bind-sites-table'><thead>" +
+				"<tr><th>***fake data**</th><th>Experimental</th><th>Predicted</th></tr></thead><tbody");
+	// <th># Intergenic Sites</th><th># Intragenic Sites</th><th>p-value</th></tr></thead><tbody>");
+
+			tableData = {};
+			tableData['intragenic'] = [];
+			tableData['intergenic'] = [];
+			tableData['pval'] = [];
 
 			$.each(data, function(index, obj) {
-				var numIntra = obj.intragenic;
-				var numInter = obj.intergenic;
-				var pVal = obj.pvalue;
-	
-				$("#predict-bind-site-table").append("<tr><td>"+ numIntra +"</td><td>" + numInter + "</td><td>" + pVal + "</td></tr>");
-		});
 
-			var img = $('#pred-img').attr('src');
+			//	console.log(index + ': from yeastmine: ' + obj);
+		
+				tableData['intragenic'].push(obj.intragenic);
+				tableData['intergenic'].push(obj.intergenic);	
+				tableData['pval'].push(obj.pvalue);
+			});
 
-			$('#pred-img').replaceWith('<a href="/circos/' + img_name + '" rel="1" class="newWindow"><img src="' + img + '"></a>');	
+		//	console.log("table data: "+ tableData['intergenic']);
+		//	console.log("data: "+ tableData['intragenic']);
+console.log("data: "+ tableData['pval']);
+
+			for (var key in tableData) {
+			//	console.log('key: ' + key);
+
+				$("#bind-sites-table").append("<tr id='" + key + "-row'><td>" + key +"</td>");
+
+				$.each(tableData[key], function(inner_i, item) { 
+					if (inner_i > 1) {
+						return;  
+					}
+				//	console.log(inner_i +" val:" + item);
+					$("#"+key+"-row").append("<td>" + item + "</td>");
+				});
+			};
+
+	//		var img = $('#binding-sites-img').attr('src');
+
+		//	$('#binding-sites-img').replaceWith('<a href="/circos/' + img_name + '" rel="1" class="newWindow"><img src="' + img + '"></a>');	
+			$('#binding-sites').append("<div class='spacer'></div>");
 
 			if (data.length > 10) {
-				$('#predict-bind-site-table').dataTable();
+				custom_dataTable_obj('bind-sites-table');
 			}
-			$("#predicted-binding-sites").append("<hr>");
+
+			//********** expt tf binding data ************//
+
+			$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/experimental_binding_site/'+ feat)
+			.done(function(e_data) {  
+
+			    if($.isPlainObject(e_data)) {  // no expt or pred binding site data
+
+				console.log("No expt binding sites returned, only pred. info");
+
+			    } else {  // append expt data after pred. binding data
+		
+				$("#binding-sites").append("<h4 class='span9'>There are " + e_data + 
+				" experimentally determined " + protein +" binding sites in the genome.</h4>");
+	
+		       	   }// end else 
+
+
+			}); // end get expt data
+
 		} // end else
-	})
-	.always(function() { 
+
 		refresh_scrollspy(); 
 	}); 
 	
-} // end load_pred_bind_sites
+} // end load_bind_sites
 
 
 function load_expt_bind_sites(query, protein) {
@@ -197,85 +229,87 @@ function load_expt_bind_sites(query, protein) {
 	var img_name = 'circos-lg.png';
 	var protein = protein;
 	
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/experimental_binding_site/'+ query)
+	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/experimental_binding_site/'+ query)
 	.done(function(data) { 
 		if ($.isPlainObject(data)) {
 			console.log("No expt binding data");
-			hide_nav('binding-site-summary');
+			hide_nav('expt-binding-sites');
 		} else {
-			$("#binding-site-summary").append("<h2>Summary of Experimentally Determined " + protein + " Binding Sites</h2> \
+			$("#expt-binding-sites").append("<h2>Summary of Experimentally Determined " + protein + " Binding Sites</h2> \
 			<p>There are " + data + " experimentally determined " + protein +" binding sites in the genome.</p> \
 			<div class='circos'><img id='expt-img' src='/static/imgs/circos_sm.png'></div>");
-			console.log("#: " + data);
+		//	console.log("#: " + data);
 
 			var img = $('#expt-img').attr('src');
 
 			$('#expt-img').replaceWith('<a href="/circos/' + img_name + '" rel="1" class="newWindow"><img src="' + img + '"></a>');
 
-			$("#binding-site-summary").append("<hr>");
+			$("#expt-binding-sites").append("<hr>");
 		} // end else
-	})
-	.always(function() { refresh_scrollspy(); });
+	refresh_scrollspy();
+	});
 } // end expt_bind_sites
 
 
+//************** REGULATORY TARGETS *****************//
 
 function load_reg_targets(query, protein) {
 	
 	var feat = query;
 	var prot_name = protein;
-	uniq_genes = new Array();
 
-	console.log("# uniq genes b: " + uniq_genes.length);
-
-	var cit_link = 'http://www.yeastgenome.org/cgi-bin/reference/reference.pl?pubmed=';
-	var feat_link = 'http://yeastgenome.org/cgi-bin/locus.fpl?dbid='
-
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/target/' + query)
+	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/target/' + query)
 	.done(function(data) {
 		if ($.isEmptyObject(data)) {
 			console.log('No regulatory targets loaded');
 			hide_nav('regulatory-targets');
 		} else {
-			$("#regulatory-targets").append("<h2>"+ prot_name + " Regulatory Targets (<span id='num-targets'></span> total)</h2>");
+			$("#regulatory-targets").append("<div class='spacer'></div><hr>");
+
+			$("#regulatory-targets").append("<h2>"+ prot_name + " Regulatory Targets (<span class='num-targets'></span> total)</h2>");
 	
-			$("#regulatory-targets").append("<table id='target-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>Reference</th><th>Source</th></tr></thead><tbody>");
+			$("#regulatory-targets").append("<table id='regulatory-targets-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>Reference</th><th>Source</th></tr></thead><tbody>");
 		
 			$.each(data, function(index, obj) {
-				$('#target-table').append('<tr><td><a href=\''+feat_link + obj.dbid + '\'>'+ obj.feature_name+'</a></td> \
-				<td>' + obj.gene_name + '</td><td>' + obj.evidence + '</td><td>' +obj.citation + '; PMID: <a href=\'' + cit_link + obj.pmid + '\'>'+ obj.pmid + '</a></td><td>'+ obj.source + '</td></tr>');
-			if ($.inArray(obj.gene_name, uniq_genes) != -1) {
-				uniq_genes.push(obj.gene_name);
-			}			
-		});
+				$('#regulatory-targets-table').append('<tr><td><a href=\''+feat_url + obj.dbid + '\'>'+ obj.feature_name+'</a></td> \
+				<td>' + obj.gene_name + '</td><td>' + obj.evidence + '</td><td><a href=\''+ ref_url + obj.pmid +'\'>'+ obj.citation + '</a></td><td>'+ obj.source + '</td></tr>');
+
+			});
 			
-		$("#num-targets").append(data.length);
+		} // end else
+			
 
 		if (data.length > 10) {
-			$('#target-table').dataTable();
+			custom_dataTable_obj('regulatory-targets-table');
 		}
 
-		$("#regulatory-targets").append("<div class='spacer'></div><hr>");
-	} // end else
-	})
-	.always(function() { refresh_scrollspy(); });
+		load_go_processes(dbid, prot_name, data.length);
+
+		$(".num-targets").append(data.length);
+
+		refresh_scrollspy();
+
+	}); // end done function
+
 } // end load_reg_targets
 
 
-function load_go_processes(query, protein) {
+//************** GO PROCESSES **************//
+
+function load_go_processes(query, protein, num_regs) {
 
 	var feat = query;
 	var protein = protein;
-	var go_url = 'http://yeastgenome.org/cgi-bin/GO/goTerm.pl?goid=';
-	
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/shared_go_process/' + feat)
+	var regs = num_regs;
+
+	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/shared_go_process/' + feat)
 	.done(function(data) {
 		if ($.isEmptyObject(data)) {
 			console.log('No GO processes returned');
 			hide_nav('shared-GO-processes');
 		} else {
-		
-			$("#shared-GO-processes").append("<h2>Shared GO Processes Among " + protein + " Regulatory Targets</h2>");	
+			$("#shared-GO-processes").append("<div class='spacer'><hr></div>");
+			$("#shared-GO-processes").append("<h2>Shared GO Processes Among " + protein + " Regulatory Targets (" + num_regs +" total)</h2>");	
 			$("#shared-GO-processes").append("<table id='GO-table'><thead><tr><th>GO Term</th><th>P-value</th><th>Number of genes</th></tr></thead><tbody>");
 
 			$.each(data, function(index, obj) {	
@@ -285,47 +319,52 @@ function load_go_processes(query, protein) {
 			});
 		
 			if (data.length > 10) {
-				$('#GO-table').dataTable();
+				custom_dataTable_obj('GO-table');
+				//sci_not_sort_dataTable('GO-table', [2]);
 			}
 
-			$("#shared-GO-processes").append("<div class='spacer'></div><hr>");
-		} // end else
+			//$("#shared-GO-processes").append("<div class='spacer'></div><hr>");
 
-	})
-	.always(function() { refresh_scrollspy(); });
+		} // end else
+	refresh_scrollspy();
+	});
 
 } // end go_processes
 
+
+// ******* LOAD DOMAIN SECTION ******//
 
 function load_domains(feat_name, protein) {
 	var query = feat_name;
 	var protein = protein;
 
-	var pbrowse ="http://browse.yeastgenome.org/fgb2/gbrowse_img/scproteome/?src=scproteome&name=" + query;
-	var pbrowse_link = "http://yeastgenome.org/cgi-bin/protein/proteinPage.pl?locus=" + query;
-			
-	$("#domains").append("<h2>" + protein + " Domains</h2><span id='pBrowse'></span>");
-	$("#pBrowse").append("<div><a href='"+ pbrowse_link +"'><img id='pbrowse_img' src='" + pbrowse + "'></img></a></div>");
-	
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/domain/' + query)
+	console.log('trying to load domains');
+
+	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/domain/' + query)
 	.done(function(data) {
 		if ($.isEmptyObject(data)) {
 			console.log('No domain info retrieved.');
 			hide_nav('domains');
 		} else {
-			$("#domains").append("<div><table id='jaspar-table'><thead><tr><th>Jaspar Class</th><th>Jaspar Family</th></tr></thead><tbody>");
+
+			console.log('retrieved domain info');
+			// var num_residues = $.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend
+
+			$("#domains").append("<hr>");
+
+			$("#domains").append("<h2>"+protein+ " Domains and Motifs (# residues total)</h2>" +
+				"<div><table id='domain-table'><thead><tr><th>Protein coordinates</th><th>Accession Id</th><th>Description</th><th>Source</th></tr></thead><tbody>");
 			$.each(data, function(index, obj) {
-				$('#jaspar-table').append('<tr><td>'+ obj.class +'</td><td>' + obj.family + '</td></tr>')
+				$('#jaspar-table').append('<tr><td>'+ obj.coord +'</td><td>' + obj.accession + '</td><td>' + obj.description + '</td><td>' + obj.source + '</td></tr>')
 			});
 
 			if (data.length > 10) {
-				$('#jaspar-table').dataTable();
+				custom_dataTable_obj('domain-table');
 			}
 
-			$("#domains").append("<hr>");
 		} // end else
-	})
-	.always(function() { refresh_scrollspy(); });
+	refresh_scrollspy();
+	});
 }
 
 function load_regulators(query,feat_title) {
@@ -333,14 +372,12 @@ function load_regulators(query,feat_title) {
 	var query = query;
 	var display = feat_title;
 
-	var cit_link = "http://yeastgenome.org/cgi-bin/reference/reference.pl?pubmed=";
-	var gene_link = 'http://yeastgenome.org/cgi-bin/locus.fpl?locus=';
-
-	$.getJSON('http://sgd-dev-2.stanford.edu:5000/regulation/regulator/' + query)
+	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/regulator/' + query)
 	.done(function(data) {
 		if ($.isEmptyObject(data)) {
 			console.log('no regulators returned');
 		} else {
+			$('#regulators').append("<div class='spacer'><hr></spacer>");
 			$('#regulators').append("<h2>Regulators of " + display + " (<span id='num-regs'></span> total)</h2>");
 
 			$('#num-regs').append(data.length);
@@ -348,16 +385,17 @@ function load_regulators(query,feat_title) {
 			$("#regulators").append("<table id='regulator-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>References</th><th>Source</th></tr></thead><tbody>");
 
 			$.each(data, function(index, obj) {
-				$('#regulator-table').append('<tr><td><a href=\''+gene_link + obj.dbid +'\'>' + obj.feature_name +'</a></td><td>' + obj.gene_name + '</td><td>' + obj.evidence + '</td><td>' +obj.citation + '; PMID:<a href=\'' + cit_link + obj.pmid + '\'>' + obj.pmid + '</a></td><td>' + obj.source + '</td></tr>')
+				$('#regulator-table').append('<tr><td><a href=\''+ feat_url + obj.dbid +'\'>' + obj.feature_name +'</a></td><td>' + obj.gene_name + '</td><td>' + obj.evidence + '</td><td><a href=\'' + ref_url + obj.pmid + '\'>' + obj.citation + '</a></td><td>' + obj.source + '</td></tr>')
 			});
 
 			if (data.length > 10) {
-				$('#regulator-table').dataTable();
+				custom_dataTable_obj('regulator-table');
 			}
 		
 			$('#regulators-li').removeClass('hide');
 		} // end else
-	})
-	.always(function() { refresh_scrollspy(); });
+
+		refresh_scrollspy();
+	});
 }
 

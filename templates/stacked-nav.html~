@@ -1,17 +1,17 @@
-<div id="page-nav-container" class="span3 sidenav">
+<div id="page-nav-container" class="span3 sidenav affix-top">
+    
        <ul id="page-nav" class="nav nav-tabs nav-stacked side-page-nav affix-top">
-
-	
+               <li id='nav-title'><h5><red>{{ title }}</red> {{ page }}</h5></li>
 
  		<li id='summary-li'><a href="#summary">Summary</a></li>
-		<li id='refs-li'><a href="#refs">References</a></li>
-		<li id='binding-site-seq-logos-li'><a href="#binding-site-seq-logo">Binding Site Sequence Logo</a></li>
-		<li id='predicted-binding-sites-li'><a href="#predicted-binding-sites">Predicted Binding Sites</a></li>
-		<li id='binding-site-summary-li'><a href="#binding-site-summary">Summary of Binding Sites</a></li>
-		<li id='regulatory-target-li'><a href="#regulatory-targets">Regulatory Targets</a></li>
+		<li id='domains-li'><a href='#domains'>Domains and Motifs</a></li>
+		<li id='binding-site-seq-logos-li'><a href="#binding-site-seq-logos">Binding Site Motifs</a></li>
+		<li id='regulatory-target-li'><a href="#regulatory-targets">Targets</a></li>
 		<li id='shared-GO-processes-li'><a href="#shared-GO-processes">Shared GO Processes</a></li>
-		<li id='domains-li'><a href="#domains">Domains</a></li>
-		<li id='regulators-li'><a href="#regulators">Regulators</a></li>  
+		<li id='binding-sites-li'><a href="#binding-sites">Binding Sites</a></li>
+		<li id='regulators-li'><a href="#regulators">Regulators</a></li>
+
+
 
 </ul> 
 

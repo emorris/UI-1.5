@@ -147,6 +147,8 @@ $navBorderColor: rgb(204,204,204);
   top: 0px;
 }
 
+#nav-title { padding-left: 5px; }
+
 .nav-tabs.nav-stacked > li > a {
 	border-color: $navBorderColor;
 
@@ -164,6 +166,7 @@ $navBorderColor: rgb(204,204,204);
 //}
 
 
+/* Regulation page */
 /* for citations */
 .citation {
 	padding: 0px;
@@ -171,9 +174,13 @@ $navBorderColor: rgb(204,204,204);
 	padding-bottom: 5px;
 }
 
-/* pbrowse img */
-//#pbrowse_img {
-//	width: 200px;
-//}
+/* for YetFasco logos */
+#binding-site-seq-logos img {
+	height: 100px;
+}
 
-
+/* make text red */
+.gene_name { 
+	color: #980D0D;
+	font-weight: bold;
+};

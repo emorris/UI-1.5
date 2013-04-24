@@ -1,19 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %} {{ query }} Regulation {% endblock %}
+{% block title %} {{ title }} Regulation {% endblock %}
 
 {% block page_title %}	<div id="page-title">
 
-		<h1><a href="#"><span class='sect-title'></span> </a></h1>
+		<h1><span class='gene_name'>{{ title }} </span> Regulation</h1>
 		<a href="http://www.yeastgenome.org/help/PhysGenIntDetailsHelp.html" class="help">
 			<img src="http://www.yeastgenome.org/images/icon_help_circle_dark.png" alt="Help">
 		</a>
 		</div>
 {% endblock %}
-
 {% block page_content %}
-	<form><input type="hidden" id="query" value="{{ query }}"></form>
-
+	<form><input type="hidden" id="query" value="{{ query }}"><input type='hidden' id='protein_name' value="{{ protein }}"><input type='hidden' id='dbid' value="{{ dbid }}"><input type='hidden' id='display' value="{{ display }}"><input type='hidden' id='title' value="{{ title }}"></form>
 	<div class="grid-container">
 		
 		<div id="main" class="row">
@@ -25,14 +23,14 @@
 
 			<div id="page-content" class="span9"> 
 		
-				<h1 id="top"><a href="#" class='sect-title'></a> Regulation</h1>
 				<section id='summary'></section>
-				<section id='refs'></section>
+				<section id='refs'></section>			
+				<section id='domains'></section>
 				<section id='binding-site-seq-logos'></section>
 				<section id='predicted-binding-sites'></section>
+				<section id='expt-binding-sites'></section>
 				<section id='regulatory-targets'></section>
 				<section id='shared-GO-processes'></section>
-				<section id='domains'></section>
 				<section id='regulators'></section>
 	
 			</div><!-- #page-content -->

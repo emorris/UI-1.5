@@ -147,6 +147,8 @@ $navBorderColor: rgb(204,204,204);
   top: 0px;
 }
 
+ #nav-title { padding-left: 10px; }
+
 .nav-tabs.nav-stacked > li > a {
 	border-color: $navBorderColor;
 
@@ -164,6 +166,7 @@ $navBorderColor: rgb(204,204,204);
 //}
 
 
+/* Regulation page */
 /* for citations */
 .citation {
 	padding: 0px;
@@ -175,10 +178,4 @@ $navBorderColor: rgb(204,204,204);
 #binding-site-seq-logos img {
 	height: 100px;
 }
-
-/* pbrowse img */
-//#pbrowse_img {
-//	width: 200px;
-//}
-
 

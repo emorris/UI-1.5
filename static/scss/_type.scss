@@ -26,6 +26,7 @@ small   { font-size: 85%; }
 strong  { font-weight: bold; }
 em      { font-style: italic; }
 cite    { font-style: normal; }
+red 	{ color:  #980D0D; }
 
 // Utility classes
 .muted               { color: $grayLight; }
@@ -44,6 +45,14 @@ a.text-info:hover    { color: darken($infoText, 10%); }
 a.text-success:hover { color: darken($successText, 10%); }
 
 
+// General text align
+//--------------------------
+.text-left { text-align: left; }
+
+.text-right { text-align: right; }
+
+.text-center { text-align: center; }
+
 // Headings
 // -------------------------
 
@@ -58,6 +67,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
     line-height: 1;
     color: $grayLight;
+
   }
 }
 
