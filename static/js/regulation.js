@@ -1,11 +1,10 @@
-$(document).ready ( function() {
+ $(document).ready ( function() {
 
 	 console.log('query: ' + display_name);
 
 	load_summary(dbid); 
 	load_domains(dbid, protein_name);
 	load_bind_logo(dbid, protein_name);
-	load_bind_sites(dbid, protein_name);	
 	load_reg_targets(dbid, protein_name);
 	load_regulators(dbid, title_name);
 
@@ -30,10 +29,8 @@ function load_summary(query) {
 			console.log("Empty object");
 			hide_nav('summary');
 			hide_nav('refs');
+			refresh_scrollspy();
 		} else {
-			console.log("data: " + data + "sum length: " + data.length);
-
-			console.log("summary query: " + query);
 
 			if (data.publication.length > 0) {
 	   
@@ -45,17 +42,20 @@ function load_summary(query) {
 	
 		    	 	$.each(data.publication, function(index, obj) {
 					var num = index + 1;
+					var cit_i = obj.citation.indexOf(')');
 	
-					var citArray = obj.citation.split(") ");
-					citArray[0] = '<a href=' + ref_url + '>' + citArray[0] + ')</a>';
+					var citArray = [obj.citation.slice(0, cit_i), obj.citation.slice(cit_i + 1)];
+
+					citArray[0] = '<a href=' + ref_url + obj.pmid + '>' + citArray[0] + ')</a>';
 					
-	        	 		 $("#ref-list").append("<div class='citation'>" + citArray.join(" ") + "</div>");
+	        	 		 $("#ref-list").append("<div class='citation'>" + citArray.join("") + "</div>");
 				});
 	
 			} // end if
-		 //	$('#refs').append("<hr>");
+
+		$('span#summary-nav').replaceWith("<li id='summary-li'><a href='#summary'>Summary</a></li>");
+		refresh_scrollspy(); 
 		} // end else
-	refresh_scrollspy(); 
 	});
 }
 
@@ -76,8 +76,8 @@ function load_bind_logo(query, protein) {
 			$('#binding-site-seq-logos').append("<hr>");
 
 			$('#binding-site-seq-logos').append("<h2>" + prot_name + 
-				" Binding Site Motifs <span class='pull-right'><small><em> \
-				Click on a motif to view <a href='http://yetfasco.ccbr.utoronto.ca'>YeTFaSCo</a> record</small></em></span></h4>");
+				" Binding Site Motifs</h2><div><em> \
+				Click on a motif to view <a href='http://yetfasco.ccbr.utoronto.ca'>YeTFaSCo</a> record</em></div>");
 
 		//	console.log('data: ' + data);
 
@@ -91,160 +91,37 @@ function load_bind_logo(query, protein) {
 
 //		//	console.log(row + "* NEW URL: " + url );
 		
-			$('#binding-site-seq-logos').append('<a href="' + url + '"><img class="yetfasc"  src="/static/imgs/YeTFaSCo_Logos/' + row + '" alt="Binding Site Sequence Logo"></a>');
+			$('#binding-site-seq-logos').append('<a href="' + url + '"><img class="yetfasco"  src="/static/imgs/YeTFaSCo_Logos/' + row + '" alt="Binding Site Sequence Logo"></a>');
 		});
+		
+		$('#binding-site-seq-logos').append("<div id='expt-binding-sites'></div>");
+		
+		$("#expt-binding-sites").append("<h4>View binding sites in <a href='" + gbrowse_url + "'>GBrowse</a>.</h4>");
 
+	//	load_expt_bind_sites(query, prot_name);
+
+		$('span#binding-sites-nav').replaceWith("<li id='binding-site-seq-logos-li'><a href='#binding-site-seq-logos'>Binding Site Motifs</a></li>");
 	
 		} // end else
 	refresh_scrollspy();
 	});
 }
 
-//*************** EXPT AND PREDICTED BINDING SITE DATA **************//
-
-function load_bind_sites(query, protein) {
-	var feat = query;
-	var img_name = 'circos-lg.png';
-	var prot = protein;
-
-	var predicted = $.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/predicted_binding_site/'+ feat)
-	.done(function(data) {
-		console.log('retrieved predicted data');
-
-		if ($.isEmptyObject(data)) { // no predicted binding site data -- check for expt data
-
-			$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/experimental_binding_site/'+ feat)
-			.done(function(e_data) {  
-
-			    if($.isPlainObject(e_data)) {  // no expt or pred binding site data
-
-				console.log("No pred or expt binding sites returned");
-
-				hide_nav('predicted-binding-sites');
-
-			    } else {  // only expt data; no pred. binding data
-				
-		    		$("#binding-sites").append("<div class='spacer'><hr></div>");
-
-				$("#binding-sites").append("<h2>Predicted and Experimental Binding Sites</h2>");
-				$("binding-sites").append("<div id='binding-sites-table' class='span5'></div>");
-			
-			// 	$("#binding-sites").append("<h4>There are " + e_data + " experimentally determined " + protein +" binding sites in the genome.</h4> \
-			//	$("#binding-sites").append("<div class='circos span3'><img id='binding-sites-img' src='/static/imgs/circos_sm.png'></div>");
-		//	console.log("#: " + data);
-
-		//	var img = $('#binding-sites-img').attr('src');
-
-			//$('#binding-sites-img').replaceWith('<a href="/circos/' + img_name + '" rel="1" class="newWindow"><img src="' + img + '"></a>');
-
-			$("#binding-sites").append("<hr>");
-	
-			}
-		 }); // end getJSON for expt. data
-
-		} else {  // has pred binding site data
-
-			
-		    	$("#binding-sites").append("<div class='spacer'><hr></div>");
-			
-			$("#binding-sites").append("<h2>Predicted and Experimental Binding Sites</h2>");
-			$("#binding-sites").append("<div id='binding-sites-table'></div>"); 
-//			"<div class='circos span3'><img id='binding-sites-img' src='/static/imgs/circos_sm.png'></div>");
-
-			$("#binding-sites-table").append("<table id='bind-sites-table'><thead>" +
-				"<tr><th>***fake data**</th><th>Experimental</th><th>Predicted</th></tr></thead><tbody");
-	// <th># Intergenic Sites</th><th># Intragenic Sites</th><th>p-value</th></tr></thead><tbody>");
-
-			tableData = {};
-			tableData['intragenic'] = [];
-			tableData['intergenic'] = [];
-			tableData['pval'] = [];
-
-			$.each(data, function(index, obj) {
-
-			//	console.log(index + ': from yeastmine: ' + obj);
-		
-				tableData['intragenic'].push(obj.intragenic);
-				tableData['intergenic'].push(obj.intergenic);	
-				tableData['pval'].push(obj.pvalue);
-			});
-
-		//	console.log("table data: "+ tableData['intergenic']);
-		//	console.log("data: "+ tableData['intragenic']);
-console.log("data: "+ tableData['pval']);
-
-			for (var key in tableData) {
-			//	console.log('key: ' + key);
-
-				$("#bind-sites-table").append("<tr id='" + key + "-row'><td>" + key +"</td>");
-
-				$.each(tableData[key], function(inner_i, item) { 
-					if (inner_i > 1) {
-						return;  
-					}
-				//	console.log(inner_i +" val:" + item);
-					$("#"+key+"-row").append("<td>" + item + "</td>");
-				});
-			};
-
-	//		var img = $('#binding-sites-img').attr('src');
-
-		//	$('#binding-sites-img').replaceWith('<a href="/circos/' + img_name + '" rel="1" class="newWindow"><img src="' + img + '"></a>');	
-			$('#binding-sites').append("<div class='spacer'></div>");
-
-			if (data.length > 10) {
-				custom_dataTable_obj('bind-sites-table');
-			}
-
-			//********** expt tf binding data ************//
-
-			$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/experimental_binding_site/'+ feat)
-			.done(function(e_data) {  
-
-			    if($.isPlainObject(e_data)) {  // no expt or pred binding site data
-
-				console.log("No expt binding sites returned, only pred. info");
-
-			    } else {  // append expt data after pred. binding data
-		
-				$("#binding-sites").append("<h4 class='span9'>There are " + e_data + 
-				" experimentally determined " + protein +" binding sites in the genome.</h4>");
-	
-		       	   }// end else 
-
-
-			}); // end get expt data
-
-		} // end else
-
-		refresh_scrollspy(); 
-	}); 
-	
-} // end load_bind_sites
-
-
 function load_expt_bind_sites(query, protein) {
 
 	var query = query;
 	var img_name = 'circos-lg.png';
 	var protein = protein;
-	
+
 	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/experimental_binding_site/'+ query)
 	.done(function(data) { 
 		if ($.isPlainObject(data)) {
 			console.log("No expt binding data");
-			hide_nav('expt-binding-sites');
+	
 		} else {
-			$("#expt-binding-sites").append("<h2>Summary of Experimentally Determined " + protein + " Binding Sites</h2> \
-			<p>There are " + data + " experimentally determined " + protein +" binding sites in the genome.</p> \
-			<div class='circos'><img id='expt-img' src='/static/imgs/circos_sm.png'></div>");
-		//	console.log("#: " + data);
 
-			var img = $('#expt-img').attr('src');
+			$("#expt-binding-sites").append("<h4>There are <a href='"+ gbrowse_url + "'>" + data + "</a> experimentally determined " + protein +" binding sites in the genome. View in <a href='" + gbrowse_url + "'>GBrowse.</a></h4>");
 
-			$('#expt-img').replaceWith('<a href="/circos/' + img_name + '" rel="1" class="newWindow"><img src="' + img + '"></a>');
-
-			$("#expt-binding-sites").append("<hr>");
 		} // end else
 	refresh_scrollspy();
 	});
@@ -257,10 +134,14 @@ function load_reg_targets(query, protein) {
 	
 	var feat = query;
 	var prot_name = protein;
+	var num_genes = new Object();
+
+//	console.log('# genes?' + Object.keys(num_genes).length);
 
 	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/target/' + query)
 	.done(function(data) {
 		if ($.isEmptyObject(data)) {
+
 			console.log('No regulatory targets loaded');
 			hide_nav('regulatory-targets');
 		} else {
@@ -274,21 +155,29 @@ function load_reg_targets(query, protein) {
 				$('#regulatory-targets-table').append('<tr><td><a href=\''+feat_url + obj.dbid + '\'>'+ obj.feature_name+'</a></td> \
 				<td>' + obj.gene_name + '</td><td>' + obj.evidence + '</td><td><a href=\''+ ref_url + obj.pmid +'\'>'+ obj.citation + '</a></td><td>'+ obj.source + '</td></tr>');
 
+				if (num_genes.hasOwnProperty(obj.feature_name)) {
+					num_genes[obj.feature_name] = num_genes[obj.feature_name] + 1;
+				} else {
+					num_genes[obj.feature_name] = 1;
+				}
 			});
-			
-		} // end else
-			
 
 		if (data.length > 10) {
 			custom_dataTable_obj('regulatory-targets-table');
+		} else {
+			no_pagination_dataTable_obj('regulatory-targets-table');
 		}
 
-		load_go_processes(dbid, prot_name, data.length);
+		load_go_processes(dbid, prot_name, Object.keys(num_genes).length);
 
-		$(".num-targets").append(data.length);
+		$(".num-targets").append(Object.keys(num_genes).length);
+
+		$("span#targets-nav").replaceWith("<li id='regulatory-targets-li'><a href='#regulatory-targets'>Targets</a></li>");
 
 		refresh_scrollspy();
 
+		} // end else
+			
 	}); // end done function
 
 } // end load_reg_targets
@@ -306,7 +195,7 @@ function load_go_processes(query, protein, num_regs) {
 	.done(function(data) {
 		if ($.isEmptyObject(data)) {
 			console.log('No GO processes returned');
-			hide_nav('shared-GO-processes');
+		//	hide_nav('shared-GO-processes');
 		} else {
 			$("#shared-GO-processes").append("<div class='spacer'><hr></div>");
 			$("#shared-GO-processes").append("<h2>Shared GO Processes Among " + protein + " Regulatory Targets (" + num_regs +" total)</h2>");	
@@ -321,9 +210,13 @@ function load_go_processes(query, protein, num_regs) {
 			if (data.length > 10) {
 				custom_dataTable_obj('GO-table');
 				//sci_not_sort_dataTable('GO-table', [2]);
+			}  else {
+				no_pagination_dataTable_obj('GO-table');
 			}
 
 			//$("#shared-GO-processes").append("<div class='spacer'></div><hr>");
+
+			$("span#GO-nav").replaceWith("<li id='shared-GO-processes-li'><a href='#shared-GO-processes'>Shared GO Processes</a></li>");
 
 		} // end else
 	refresh_scrollspy();
@@ -334,9 +227,11 @@ function load_go_processes(query, protein, num_regs) {
 
 // ******* LOAD DOMAIN SECTION ******//
 
+
 function load_domains(feat_name, protein) {
 	var query = feat_name;
 	var protein = protein;
+	var jaspar = new Object();
 
 	console.log('trying to load domains');
 
@@ -352,15 +247,48 @@ function load_domains(feat_name, protein) {
 
 			$("#domains").append("<hr>");
 
-			$("#domains").append("<h2>"+protein+ " Domains and Motifs (# residues total)</h2>" +
-				"<div><table id='domain-table'><thead><tr><th>Protein coordinates</th><th>Accession Id</th><th>Description</th><th>Source</th></tr></thead><tbody>");
+			$("#domains").append("<h2>"+protein+ " Domains and Motifs (" + data.length + " total)</h2>" +
+				"<div><table id='domain-table'><thead><tr><th>Protein coordinates</th><th>Accession ID</th><th>Description</th><th>Source</th></tr></thead><tbody>");
 			$.each(data, function(index, obj) {
-				$('#jaspar-table').append('<tr><td>'+ obj.coord +'</td><td>' + obj.accession + '</td><td>' + obj.description + '</td><td>' + obj.source + '</td></tr>')
-			});
+		
+				var domain_url_obj = domain_mapping_obj[obj.source];
+				var domainID = obj.domain_name;
+			
+				if (obj.source.match('JASPAR')) {
+					jaspar.domain_name = obj.domain_name;
+					jaspar.description = obj.description;
+					jaspar.url = domain_url_obj.url;
+					jaspar.database = domain_url_obj.database;
+					
+		
+				} else {
+					if (obj.source.match('Gene3D')) {
+						domainID = domainID.replace('G3DSA:', '');
+ 				
+					}
+		
+					url = domain_url_obj.url + domainID; 
+						
+					$('#domain-table').append('<tr><td>'+ obj.start_coord + '-' + obj.stop_coord +'</td><td><a href=\''+ url + '\'>' + obj.domain_name + '</a></td><td>' + obj.description + '</td><td>' + domain_url_obj.database + '</td></tr>')
+				}
+			}); 
+			
+			if (Object.keys(jaspar).length > 0) {
+	
+				$('#domain-table').append('<tr><td></td><td><a href=\'\'>' + jaspar.domain_name + '</a></td><td>' + jaspar.description + '</td><td>JASPAR</td></tr>');
+			}
 
 			if (data.length > 10) {
 				custom_dataTable_obj('domain-table');
+			}  else {
+				no_pagination_dataTable_obj('domain-table');
 			}
+			
+			$("#domains-nav").replaceWith("<li id='domains-li'><a href='#domains'>Domains and Motifs</a></li>");
+
+			$("#domains").append("<div class='spacer'></div>");
+	//		console.log('data length: '+ data.length);	
+	//		$("#num_doms").replaceWith(data.length);
 
 		} // end else
 	refresh_scrollspy();
@@ -371,6 +299,8 @@ function load_regulators(query,feat_title) {
 	
 	var query = query;
 	var display = feat_title;
+	var num_genes = new Object();
+
 
 	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/regulator/' + query)
 	.done(function(data) {
@@ -380,19 +310,31 @@ function load_regulators(query,feat_title) {
 			$('#regulators').append("<div class='spacer'><hr></spacer>");
 			$('#regulators').append("<h2>Regulators of " + display + " (<span id='num-regs'></span> total)</h2>");
 
-			$('#num-regs').append(data.length);
-		
+			
 			$("#regulators").append("<table id='regulator-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>References</th><th>Source</th></tr></thead><tbody>");
 
 			$.each(data, function(index, obj) {
-				$('#regulator-table').append('<tr><td><a href=\''+ feat_url + obj.dbid +'\'>' + obj.feature_name +'</a></td><td>' + obj.gene_name + '</td><td>' + obj.evidence + '</td><td><a href=\'' + ref_url + obj.pmid + '\'>' + obj.citation + '</a></td><td>' + obj.source + '</td></tr>')
+				$('#regulator-table').append('<tr><td><a href=\''+ feat_url + obj.dbid +'\'>' + obj.feature_name +'</a></td><td>' + obj.gene_name + '</td><td>' + obj.evidence + '</td><td><a href=\'' + ref_url + obj.pmid + '\'>' + obj.citation + '</a></td><td>' + obj.source + '</td></tr>');
+
+				if (num_genes.hasOwnProperty(obj.feature_name)) {
+					num_genes[obj.feature_name] = num_genes[obj.feature_name] + 1;
+				} else {
+					num_genes[obj.feature_name] = 1;
+				}
+
 			});
 
 			if (data.length > 10) {
 				custom_dataTable_obj('regulator-table');
 			}
+
+			$('#num-regs').append(Object.keys(num_genes).length);
+				
+			$("span#regulators-nav").replaceWith("<li id='regulators-li'><a href='#regulators'>Regulators</a></li>");
 		
-			$('#regulators-li').removeClass('hide');
+	//			$('#regulators-li').removeClass('hide');
+
+		refresh_scrollspy();
 		} // end else
 
 		refresh_scrollspy();
