@@ -38,13 +38,69 @@ $(document).ready( function() {
 		domain_mapping_obj.HMMPfam = {"database": "Pfam", "url": "http://pfam.sanger.ac.uk/family?type=Family&entry="};
 		domain_mapping_obj.BlastProDom = {"database": "ProDom", "url": "http://prodom.prabi.fr/prodom/current/cgi-bin/request.pl?question=DBEN&amp;query="};
 		domain_mapping_obj.HMMTigr = {"database": "TIGRFAMs", "url": "http://cmr.tigr.org/tigr-scripts/CMR/HmmReport.cgi?hmm_acc="};
+
 		domain_mapping_obj.superfamily = {"database": "SUPERFAMILY", "url": "http://supfam.org/SUPERFAMILY/cgi-bin/scop.cgi?ipid="};
 		domain_mapping_obj.HMMPIR= {"database": "PIR superfamily", "url": "http://pir.georgetown.edu/cgi-bin/ipcSF?"};
 		domain_mapping_obj.HMMPanther = {"database": "PANTHER", "url": "http://www.pantherdb.org/panther/family.do?clsAccession="};
 		domain_mapping_obj.Gene3D = {"database": "Gene3D", "url": "http://www.cathdb.info/cathnode/"};
-		domain_mapping_obj.JASPAR = {"database": "JASPAR", "url": "http:///jaspar"};
+		domain_mapping_obj.JASPAR = {"database": "JASPAR", "url": "http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?rm=present&collection=CORE&ID="};
 
 	//*************************************//
+
+// for dataTable parameters //
+
+	no_pagination_dT = {
+	"sDom": 'Tfrtip<"clear">',
+	  "oLanguage": {
+	    "sSearch": "Filter: ",
+	    "sInfo": "Showing _START_ to _END_ of _TOTAL_ rows",
+	    "sLengthMenu":"Display _MENU_ rows",
+	    "sLoadingRecords":"<img src='../../static/imgs/dark-slow-wheel.gif'></img>"
+
+	  },
+	"aaSorting": [],
+	"bPaginate" : false, 
+	"bAutoWidth" : false,
+	"bProcessing": false,
+	"bDeferRender": true,
+	"oTableTools": {
+			"sSwfPath": "../../static/js/swf/copy_csv_xls_pdf.swf",
+			"aButtons": ["copy",
+				     {"sExtends": "csv",
+					"sTitle": file },
+					{"sExtends": "pdf",
+					  "sTitle": file},
+					"print",
+				]
+	},
+
+};
+
+	pagination_dT = {
+	"sDom": 'l<"clear">Tfrtip<"clear">',
+	  "oLanguage": {
+	    "sSearch": "Filter: ",
+	    "sInfo": "Showing _START_ to _END_ of _TOTAL_ rows",
+	    "sLengthMenu":"Display _MENU_ rows",	
+	    "sLoadingRecords": "<img src='../../static/imgs/dark-slow-wheel.gif'></img>"
+	  },
+	"sPaginationType": "bootstrap",
+	"aaSorting": [],
+	"bAutoWidth": false,
+	"bProcessing": false,
+	"bDeferRender": true,
+	"oTableTools": {
+			"sSwfPath": "../../static/js/swf/copy_csv_xls_pdf.swf",
+			"aButtons": ["copy",
+				     {"sExtends": "csv",
+					"sTitle": file },
+					{"sExtends": "pdf",
+					  "sTitle": file},
+					"print",
+				]
+	}
+
+};
 
 	$('.sect-title').append(title_name);
 	$('.protein-name').append(protein_name);
@@ -76,93 +132,6 @@ $(document).ajaxStop(function() {
 	console.log("all ajax is done");
 	refresh_scrollspy();
 });
-
-function no_pagination_dataTable_obj(table_name) {
-   var id = table_name;
-
-oTable = $('#' + id).dataTable({
-	"sDom": 'Tfrtip<"clear">',
-	  "oLanguage": {
-	    "sSearch": "Filter: ",
-	    "sInfo": "Showing _START_ to _END_ of _TOTAL_ rows",
-	    "sLengthMenu":"Display _MENU_ rows"
-
-	  },
-	"aaSorting": [],
-	"bPaginate" : false,
-	"oTableTools": {
-			"sSwfPath": "../../static/js/swf/copy_csv_xls_pdf.swf",
-			"aButtons": ["copy",
-				     {"sExtends": "csv",
-					"sTitle": file },
-					{"sExtends": "pdf",
-					  "sTitle": file},
-					"print",
-				]
-	}
-
-});
-}
-
-function custom_dataTable_obj(table_name) {
-   var id = table_name;
-
-//	console.log('table id: ' + id);
-oTable = $('#' + id).dataTable({
-	"sDom": 'l<"clear">Tfrtip<"clear">', 
-	  "oLanguage": {
-	    "sSearch": "Filter: ",
-	    "sInfo": "Showing _START_ to _END_ of _TOTAL_ rows",
-	    "sLengthMenu":"Display _MENU_ rows"
-
-	  },
-	"sPaginationType": "bootstrap",
-	"aaSorting": [],
-//	"aoColumnDefs": [{"sType": "numeric", "aTargets": [0]}],
-	"oTableTools": {
-			"sSwfPath": "../../static/js/swf/copy_csv_xls_pdf.swf",
-			"aButtons": ["copy",
-				     {"sExtends": "csv",
-					"sTitle": file },
-					{"sExtends": "pdf",
-					  "sTitle": file},
-					{"sExtends": "print",
-					  "sTitle": file }]
-			}
-	});
-}
-
-function custom_dataTable_numSort_obj(table_name) {
-   var id = table_name;
-
-//	console.log('table id: ' + id);
-oTable = $('#' + id).dataTable({
-	"sDom": 'l<"clear">Tfrtip<"clear">', 
-	  "oLanguage": {
-	    "sSearch": "Filter: ",
-	    "sInfo": "Showing _START_ to _END_ of _TOTAL_ rows",
-	    "sLengthMenu":"Display _MENU_ rows"
-
-	  },
-	"sPaginationType": "bootstrap",
-	"aaSorting": [],
-	"aoColumnDefs": [{"sType": "numeric", "aTargets": [0]}],
-	"oTableTools": {
-			"sSwfPath": "../../static/js/swf/copy_csv_xls_pdf.swf",
-	}
-
-});
-}
-
-function sci_not_sort_dataTable(table_name, columns) {
-	var columnArray = columns;
-
-	oTable = $('#' + id).dataTable({
-		"aoColumn": [null, { "sType": "scientific", "aTargets": [3]}, null ],
-		"oLanguage" : { "sSearch": "Filter: "}
-	});
-	
-	}
 
 function open_new_window(url) {
 
@@ -197,6 +166,7 @@ function hide_nav(section) {
 	console.log("hide :" + sect_id);
 	$("#" + sect_id + "-li").hide();
 	$("section#" + sect_id).replaceWith("<!-- " + sect_id + " removed -->");
+	$("#"+ sect_id).replaceWith("<!-- " + sect_id + " removed -->");
 }
 
 

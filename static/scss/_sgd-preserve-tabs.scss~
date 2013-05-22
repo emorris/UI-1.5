@@ -17,13 +17,13 @@ Styles for tabs */
     padding: 10px 10px 0;
 }
 #tab li {
-    background: url("../img/TabBlankRt.gif") no-repeat scroll right top transparent;
+    background: url("../imgs/TabBlankRt.gif") no-repeat scroll right top transparent;
     float: left;
     margin-top: 11px;
     padding: 0;
 }
 #tab span {
-    background: url("../img/TabBlankLft.gif") no-repeat scroll left top transparent;
+    background: url("../imgs/TabBlankLft.gif") no-repeat scroll left top transparent;
     display: block;
     float: left;
     padding: 4px 10px 1px;
@@ -35,12 +35,12 @@ Styles for tabs */
     float: none;
 }
 #tab #current {
-    background: url("../img/TabSelectRt.gif") no-repeat scroll right top transparent;
+    background: url("../imgs/TabSelectRt.gif") no-repeat scroll right top transparent;
     height: 35px;
     margin: 1px 0 0;
 }
 #tab #current span {
-    background: url("../img/TabSelectLft.gif") no-repeat scroll left top transparent;
+    background: url("../imgs/TabSelectLft.gif") no-repeat scroll left top transparent;
     margin: 0;
     padding: 8px 10px 7px;
     vertical-align: bottom;
@@ -70,7 +70,7 @@ Styles for tabs */
     text-decoration: none;
 }
 #shaded_line {
-    background: url("../img/Backgroundtile2.gif") repeat-x scroll 0 0 transparent;
+    background: url("../imgs/Backgroundtile2.gif") repeat-x scroll 0 0 transparent;
     float: left;
     height: 24px;
     min-width: 960px;

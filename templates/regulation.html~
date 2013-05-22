@@ -12,31 +12,38 @@
 {% endblock %}
 {% block page_content %}
 	<form><input type="hidden" id="query" value="{{ query }}"><input type='hidden' id='protein_name' value="{{ protein }}"><input type='hidden' id='dbid' value="{{ dbid }}"><input type='hidden' id='display' value="{{ display }}"><input type='hidden' id='title' value="{{ title }}"></form>
-	<div class="grid-container">
+
+	<div class="grid-container" id='reg_page'>
 		
-		<div id="main" class="row">
+		<div id="main">
+		<div class="row">
 
 		{% include "regulation-tabs.html" %}
+		</div> <!-- end row -->
 
+		<div class='container-fluid'>
+		<div class='row'>
+			
 		{% include "stacked-nav.html" %}
 
 
-			<div id="page-content" class="span9"> 
+		<div id="page-content" class='span9'> 
 		
-				<section id='summary'></section>
-				<section id='refs'></section>			
-				<section id='domains'></section>
+			<section id='summary'></section>
+			<section id='refs'></section>			
+			<section id='domains'></section>
 				<section id='binding-site-seq-logos'></section> 
-			<!--	<section id='predicted-binding-sites'></section>  -->
 				<section id='regulatory-targets'></section>
 				<section id='shared-GO-processes'></section>
-				<section id='binding-sites'></section>
 				<section id='regulators'></section>
 	
 			</div><!-- #page-content -->
-
-		</div><!-- .grid-container -->	
-	</div><!-- #main -->
+			
+		</div> <!-- end row-fluid -->
+		</div> <!-- end container-fluid -->
+			
+		</div><!-- #main -->
+	</div><!-- .grid-container -->	
 
 {% endblock %}
 
