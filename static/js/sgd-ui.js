@@ -61,8 +61,8 @@ $(document).ready( function() {
 	"aaSorting": [],
 	"bPaginate" : false, 
 	"bAutoWidth" : false,
-	"bProcessing": false,
-	"bDeferRender": true,
+//	"bProcessing": true,
+//	"bDeferRender": true,
 	"oTableTools": {
 			"sSwfPath": "../../static/js/swf/copy_csv_xls_pdf.swf",
 			"aButtons": ["copy",
@@ -87,8 +87,8 @@ $(document).ready( function() {
 	"sPaginationType": "bootstrap",
 	"aaSorting": [],
 	"bAutoWidth": false,
-	"bProcessing": false,
-	"bDeferRender": true,
+//	"bProcessing": false,
+//	"bDeferRender": true,
 	"oTableTools": {
 			"sSwfPath": "../../static/js/swf/copy_csv_xls_pdf.swf",
 			"aButtons": ["copy",
