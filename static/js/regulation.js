@@ -198,7 +198,7 @@ function load_go_processes(query, protein) {
 
 		if ($.isEmptyObject(go_data) || go_data.aaData.length == 0) {
 
-			//	console.log('No GO processes returned');
+				console.log('No GO processes returned');
 				hide_nav('shared-GO-processes');
 		}
 

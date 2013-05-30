@@ -23,23 +23,23 @@ function load_summary(query) {
 	var query = query;
 
 	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/summary/'+query)
-	.done(function(data) {
-		if ($.isEmptyObject(data)) {
+	.done(function(sum_data) {
+		if ($.isEmptyObject(sum_data)) {
 			console.log("Empty object");
 			hide_nav('summary');
 			hide_nav('refs');
 			refresh_scrollspy();
 		} else {
 
-			if (data.publication.length > 0) {
+			if (sum_data.publication.length > 0) {
 	   
-				var sum = data.summary;
+				var sum = sum_data.summary;
 		    	    	var refs = []; 
 			
 				$('#summary').append("<div id='paragraph'><p>"+ sum + "</p></div>");
 				$('#refs').append("<h3>References</h3><div id='ref-list'></div>");
 	
-		    	 	$.each(data.publication, function(index, obj) {
+		    	 	$.each(sum_data.publication, function(index, obj) {
 					var num = index + 1;
 					var cit_i = obj.citation.indexOf(')');
 	
@@ -78,13 +78,6 @@ function load_bind_logo(query, protein) {
 			hide_nav('binding-site-seq-logos');
 
 		} else {
-		//	$('#binding-site-seq-logos').append("<hr>");
-
-		//	$('#binding-site-seq-logos').append("<h2>" + prot_name + 
-		//		" Binding Site Motifs</h2><div><em> \
-	//			Click on a motif to view <a href='http://yetfasco.ccbr.utoronto.ca'>YeTFaSCo</a> record</em></div>");
-//
-		//	console.log('data: ' + data);
 
 		$.each(data, function(index, row) {
 			var img_name = $.trim(row);
@@ -122,58 +115,45 @@ function load_reg_targets(query, protein) {
 	// assign number of targets to a variable //
 
 	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/target_count/' + feat)
-	.done(function(data) {  
-		num_targets = data;
+	.done(function(num_targ_data) {  
+
+		num_targets = num_targ_data;
 
 		if (num_targets > 0) {
 
 		// make section //
 	
-		$("#regulatory-targets").append("<div class='spacer'></div><hr>");
+			$("#regulatory-targets").append("<div class='spacer'></div><hr>");
 
-		$("#regulatory-targets").append("<h2>"+ prot_name + " Regulatory Targets (" + num_targets + " total)</h2>");
+			$("#regulatory-targets").append("<h2>"+ prot_name + " Regulatory Targets (" + num_targets + " total)</h2>");
 	
 		//CREATE empty datatables
 
-	$("#regulatory-targets").append("<table id='regulatory-targets-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>Reference</th><th>Source</th></tr></thead><tbody>");
+			$("#regulatory-targets").append("<table id='regulatory-targets-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>Reference</th><th>Source</th></tr></thead><tbody>");
 
-		var target_table_params = new Object();
+			var target_table_params = new Object();
 	
-		if (num_targets > 10) {
-
-			target_table_params = pagination_dT;
-
-		} else {
-
-			target_table_params = no_pagination_dT;
-		}
-		
-		target_table_params.sAjaxSource= 'http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/target/' + query; 
-
-		targetTable = $('#regulatory-targets-table').dataTable(target_table_params);
-
-		// get all target data for table //
-
-		$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/target/' + query)
-		.done(function(table_data) {
-			if ($.isEmptyObject(table_data)) {
+			if (num_targets > 10) {
 	
-				console.log('No regulatory targets loaded');
-			
+				target_table_params = pagination_dT;
+
 			} else {
-			
-				targetTable.fnAddData(data.aaData);
 
+				target_table_params = no_pagination_dT;
+			}
+			
+			target_table_params.aoColumns = [null, null, null, null, null];		   
+			target_table_params.sAjaxSource= 'http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/target/' + query; 
+
+			targetTable = $('#regulatory-targets-table').dataTable(target_table_params);
+	
+		
+		} else { // end if > 0
+
+		hide_nav('regulatory-targets'); 
 		refresh_scrollspy();
 
 		} // end else
-	
-		}); //end inner done
-		
-	} else { // end if > 0
-
-		hide_nav('regulatory-targets'); 
-	}
 
 	}); // end done function
 
@@ -190,9 +170,9 @@ function load_go_processes(query, protein) {
 	// get number of targets //
 
 	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/target_count/' + feat)
-	.done(function(data) {
+	.done(function(count_data) {
 
-	num_targets = data; 
+	num_targets = count_data; 
  	
 	if (num_targets > 0) {
 		$("#shared-GO-processes").append("<div class='spacer'><hr></div>");
@@ -203,33 +183,27 @@ function load_go_processes(query, protein) {
 
 		go_table_params = pagination_dT;
 		go_table_params.aoColumns = [null, {"sWidth":"20%", "sType": "scientific"},{"sWidth": "15%"}];		   
-
 		go_table_params.sAjaxSource = 'http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/shared_go_process/' + feat;
-			
 		goTable = $('#GO-table').dataTable(go_table_params);
-	
-		$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/shared_go_process/' + feat)
-	.done(function(data) {
 
-		if ($.isEmptyObject(data) || data.length == 0) {
-
-		//	console.log('No GO processes returned');
-			hide_nav('shared-GO-processes');
-		} else {
-
-	
-			goTable.fnAddData(data.aaData);
-
-
-		} // end else
+	} else {
+		hide_nav('shared-GO-processes');
+		refresh_scrollspy();
+	}
 
 	});
 
-//			$("span#GO-nav").replaceWith("<li id='shared-GO-processes-li'><a href='#shared-GO-processes'>Shared GO Processes</a></li>");
+	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/shared_go_process/' + feat)
+	.done(function(go_data) {
 
-	refresh_scrollspy();
-	}
-});
+		if ($.isEmptyObject(go_data) || go_data.aaData.length == 0) {
+
+			//	console.log('No GO processes returned');
+				hide_nav('shared-GO-processes');
+		}
+
+		refresh_scrollspy();
+	});
 
 } // end go_processes
 
@@ -246,6 +220,7 @@ function load_domains(feat_name, protein) {
 
 	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/domain/' + query)
 	.done(function(domain_data) {
+
 		if ($.isEmptyObject(domain_data)) {
 			console.log('No domain info retrieved.');
 			hide_nav('domains');
@@ -270,10 +245,11 @@ function load_domains(feat_name, protein) {
 			}
 
 			domain_table_params.bAutoWidth = false;
-			domain_table_params.aaData = domain_data.aaData;
 			domain_table_params.aoColumns = [
 				{"sWidth":"10%", "sType":"numeric"}, null, null, null
 				];
+			
+			domain_table_params.sAjaxSource= 'http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/domain/' + query; 
 
 			domainTable = $('#domain-table').dataTable(domain_table_params);
 			
@@ -283,6 +259,8 @@ function load_domains(feat_name, protein) {
 	refresh_scrollspy();
 	});
 }
+
+//**************** Regulator section *****************//
 
 function load_regulators(query,feat_title) {
 	
@@ -303,6 +281,7 @@ function load_regulators(query,feat_title) {
 	var reg_table_params = new Object();
 
 		if (num_regulators > 10) {
+
 			reg_table_params = pagination_dT;
 
 		} else {
@@ -318,21 +297,14 @@ function load_regulators(query,feat_title) {
 			
 		reg_oTable = $('#regulator-table').dataTable(reg_table_params);
 
-	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/regulator/' + query)
-	.done(function(data) {
-		if ($.isEmptyObject(data)) {
-			console.log('no regulators returned');
-			hide_nav('regulators');
-		} else {
-
-			reg_oTable.fnAddData(data.aaData);
-
 		refresh_scrollspy();
-		} // end else
+
+	} else {// end if statement;
 	
+		hide_nav('regulators');
 		refresh_scrollspy();
-	});
-	}// end if statement;
+	} 
+
 	});
 }
 

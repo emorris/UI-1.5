@@ -8,7 +8,7 @@ app = Flask(__name__)
 def index():
     return render_template('home.html')
 
-@app.route('/regulation/<query>')
+@app.route('/<query>')
 def regulation(query):
     gene_json = get_gene_info(query)
     
@@ -19,11 +19,6 @@ def regulation(query):
                            dbid = gene_json['dbid'],
                            protein = gene_json['protein_name'],
                            display = gene_json['display_name'])
-
-@app.route('/interaction/<query>')
-def interaction(query):
-    return render_template('interaction.html',
-                           query = query)
 
 @app.route('/circos/<img>')
 def display_image(img):
@@ -37,7 +32,7 @@ def display_image(img):
                            dbid  = gene_json['dbid'])
 
 def get_gene_info(query):
-    url = 'http://sgd-dev-2.stanford.edu:5000/gene/display_name/' +query;
+    url = 'http://cherry-vm25.stanford.edu/yeastmine_backend/gene/display_name/' +query;
     request = urllib2.urlopen(url)
     data = request.read()
    
@@ -45,5 +40,5 @@ def get_gene_info(query):
     
 
 if __name__ == '__main__':
-    app.run('sgd-dev-2.stanford.edu', 5050, debug=True)
+    app.run()
     
