@@ -13,6 +13,7 @@ $(document).ready( function() {
 	console.log('q=' + query);
 
 	// global variables //
+	web_services_url = 'http://cherry-vm25.stanford.edu/yeastmine_backend/';
 
 	display_name = $('#display').val();
 	title_name = $('#title').val();
@@ -55,7 +56,7 @@ $(document).ready( function() {
 	    "sSearch": "Filter: ",
 	    "sInfo": "Showing _START_ to _END_ of _TOTAL_ rows",
 	    "sLengthMenu":"Display _MENU_ rows",
-	    "sLoadingRecords":"<img src='../../static/imgs/dark-slow-wheel.gif'></img>"
+	    "sLoadingRecords":"<img src='../../regulation/static/imgs/dark-slow-wheel.gif'></img>"
 
 	  },
 	"aaSorting": [],
@@ -64,7 +65,7 @@ $(document).ready( function() {
 //	"bProcessing": true,
 //	"bDeferRender": true,
 	"oTableTools": {
-			"sSwfPath": "../../static/js/swf/copy_csv_xls_pdf.swf",
+			"sSwfPath": "../../regulation/static/js/swf/copy_csv_xls_pdf.swf",
 			"aButtons": ["copy",
 				     {"sExtends": "csv",
 					"sTitle": file },
@@ -82,7 +83,7 @@ $(document).ready( function() {
 	    "sSearch": "Filter: ",
 	    "sInfo": "Showing _START_ to _END_ of _TOTAL_ rows",
 	    "sLengthMenu":"Display _MENU_ rows",	
-	    "sLoadingRecords": "<img src='../../static/imgs/dark-slow-wheel.gif'></img>"
+	    "sLoadingRecords": "<img src='../../regulation/static/imgs/dark-slow-wheel.gif'></img>"
 	  },
 	"sPaginationType": "bootstrap",
 	"aaSorting": [],
@@ -90,7 +91,7 @@ $(document).ready( function() {
 //	"bProcessing": false,
 //	"bDeferRender": true,
 	"oTableTools": {
-			"sSwfPath": "../../static/js/swf/copy_csv_xls_pdf.swf",
+			"sSwfPath": "../../regulation/static/js/swf/copy_csv_xls_pdf.swf",
 			"aButtons": ["copy",
 				     {"sExtends": "csv",
 					"sTitle": file },

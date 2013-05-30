@@ -1,7 +1,7 @@
 # Require any additional compass plugins here.
 
 # Set this to the root of your project when deployed:
-http_path = "/"
+http_path = "/regulation/"
 css_dir = "static/css"
 sass_dir = "static/scss"
 images_dir = "static/imgs"

@@ -22,7 +22,7 @@
 function load_summary(query) {
 	var query = query;
 
-	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/summary/'+query)
+	$.getJSON(web_services_url + 'regulation/summary/'+query)
 	.done(function(sum_data) {
 		if ($.isEmptyObject(sum_data)) {
 			console.log("Empty object");
@@ -71,7 +71,7 @@ function load_bind_logo(query, protein) {
 	" Binding Site Motifs</h2><div><em> \
 	Click on a motif to view <a href='http://yetfasco.ccbr.utoronto.ca'>YeTFaSCo</a> record</em></div>");
 		
-	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/logos/'+query)
+	$.getJSON(web_services_url +'regulation/logos/'+query)
 	.done(function(data) {
 		if ($.isEmptyObject(data)) {
 		//	console.log("Empty logo obj");
@@ -89,7 +89,7 @@ function load_bind_logo(query, protein) {
 
 //		//	console.log(row + "* NEW URL: " + url );
 		
-			$('#binding-site-seq-logos').append('<a href="' + url + '"><img class="yetfasco"  src="/static/imgs/YeTFaSCo_Logos/' + row + '" alt="Binding Site Sequence Logo"></a>');
+			$('#binding-site-seq-logos').append('<a href="' + url + '"><img class="yetfasco"  src="/regulation/static//imgs/YeTFaSCo_Logos/' + row + '" alt="Binding Site Sequence Logo"></a>');
 		});
 		
 		$('#binding-site-seq-logos').append("<div id='expt-binding-sites'></div>");
@@ -114,7 +114,7 @@ function load_reg_targets(query, protein) {
 	 
 	// assign number of targets to a variable //
 
-	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/target_count/' + feat)
+	$.getJSON(web_services_url + 'regulation/target_count/' + feat)
 	.done(function(num_targ_data) {  
 
 		num_targets = num_targ_data;
@@ -143,7 +143,7 @@ function load_reg_targets(query, protein) {
 			}
 			
 			target_table_params.aoColumns = [null, null, null, null, null];		   
-			target_table_params.sAjaxSource= 'http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/target/' + query; 
+			target_table_params.sAjaxSource= web_services_url + 'regulation/target/' + query; 
 
 			targetTable = $('#regulatory-targets-table').dataTable(target_table_params);
 	
@@ -169,7 +169,7 @@ function load_go_processes(query, protein) {
 	
 	// get number of targets //
 
-	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/target_count/' + feat)
+	$.getJSON(web_services_url + 'regulation/target_count/' + feat)
 	.done(function(count_data) {
 
 	num_targets = count_data; 
@@ -183,7 +183,7 @@ function load_go_processes(query, protein) {
 
 		go_table_params = pagination_dT;
 		go_table_params.aoColumns = [null, {"sWidth":"20%", "sType": "scientific"},{"sWidth": "15%"}];		   
-		go_table_params.sAjaxSource = 'http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/shared_go_process/' + feat;
+		go_table_params.sAjaxSource = web_services_url + 'regulation/shared_go_process/' + feat;
 		goTable = $('#GO-table').dataTable(go_table_params);
 
 	} else {
@@ -193,7 +193,7 @@ function load_go_processes(query, protein) {
 
 	});
 
-	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/shared_go_process/' + feat)
+	$.getJSON(web_services_url + 'regulation/shared_go_process/' + feat)
 	.done(function(go_data) {
 
 		if ($.isEmptyObject(go_data) || go_data.aaData.length == 0) {
@@ -218,7 +218,7 @@ function load_domains(feat_name, protein) {
 
 	console.log('trying to load domains');
 
-	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/domain/' + query)
+	$.getJSON(web_services_url + 'regulation/domain/' + query)
 	.done(function(domain_data) {
 
 		if ($.isEmptyObject(domain_data)) {
@@ -249,7 +249,7 @@ function load_domains(feat_name, protein) {
 				{"sWidth":"10%", "sType":"numeric"}, null, null, null
 				];
 			
-			domain_table_params.sAjaxSource= 'http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/domain/' + query; 
+			domain_table_params.sAjaxSource= web_services_url +'regulation/domain/' + query; 
 
 			domainTable = $('#domain-table').dataTable(domain_table_params);
 			
@@ -267,7 +267,7 @@ function load_regulators(query,feat_title) {
 	var query = query;
 	var display = feat_title;
 	var num_genes = new Object();
-	$.getJSON('http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/regulator_count/' + query)
+	$.getJSON(web_services_url + 'regulation/regulator_count/' + query)
 	.done(function(data) {
 		 num_regulators = data;
 
@@ -289,7 +289,7 @@ function load_regulators(query,feat_title) {
 			reg_table_params = no_pagination_dT;
 		}
 
-		reg_table_params.sAjaxSource= 'http://sgd-dev-2.stanford.edu/yeastmine_backend/regulation/regulator/' + query; 
+		reg_table_params.sAjaxSource= web_services_url + 'regulation/regulator/' + query; 
 
 		reg_table_params.aoColumns = [
 				{"sWidth":"10%"}, {"sWidth":"10%"},null, null,{"sWidth":"10%"}
