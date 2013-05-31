@@ -28,68 +28,20 @@ $(document).ready( function() {
 	go_url = 'http://yeastgenome.org/cgi-bin/GO/goTerm.pl?goid=';
 	gbrowse_url = 'http://browse.yeastgenome.org/'
 	
-	//****************************************//
-	//  object to map URLs and databases for domains/sites //
-	//***************************************//
-		domain_mapping_obj = new Object();
-		domain_mapping_obj.HMMSmart = {"database": "SMART", "url": "http://smart.embl-heidelberg.de/smart/do_annotation.pl?DOMAIN="};
-		domain_mapping_obj.PatternScan = {"database": "PROSITE", "url": "http://prodom.prabi.fr/prodom/cgi-bin/prosite-search-ac?"};
-		domain_mapping_obj.ProfileScan = {"database": "PROSITE", "url": "http://prodom.prabi.fr/prodom/cgi-bin/prosite-search-ac?"};
-		domain_mapping_obj.FPrintScan = {"database": "PRINTS", "url": "http:////www.bioinf.man.ac.uk/cgi-bin/dbbrowser/sprint/searchprintss.cgi?display_opts=Prints&amp;category=None&amp;queryform=false&amp;prints_accn="};
-		domain_mapping_obj.HMMPfam = {"database": "Pfam", "url": "http://pfam.sanger.ac.uk/family?type=Family&entry="};
-		domain_mapping_obj.BlastProDom = {"database": "ProDom", "url": "http://prodom.prabi.fr/prodom/current/cgi-bin/request.pl?question=DBEN&amp;query="};
-		domain_mapping_obj.HMMTigr = {"database": "TIGRFAMs", "url": "http://cmr.tigr.org/tigr-scripts/CMR/HmmReport.cgi?hmm_acc="};
-
-		domain_mapping_obj.superfamily = {"database": "SUPERFAMILY", "url": "http://supfam.org/SUPERFAMILY/cgi-bin/scop.cgi?ipid="};
-		domain_mapping_obj.HMMPIR= {"database": "PIR superfamily", "url": "http://pir.georgetown.edu/cgi-bin/ipcSF?"};
-		domain_mapping_obj.HMMPanther = {"database": "PANTHER", "url": "http://www.pantherdb.org/panther/family.do?clsAccession="};
-		domain_mapping_obj.Gene3D = {"database": "Gene3D", "url": "http://www.cathdb.info/cathnode/"};
-		domain_mapping_obj.JASPAR = {"database": "JASPAR", "url": "http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?rm=present&collection=CORE&ID="};
-
-	//*************************************//
-
 // for dataTable parameters //
 
-	no_pagination_dT = {
-	"sDom": 'Tfrtip<"clear">',
-	  "oLanguage": {
-	    "sSearch": "Filter: ",
-	    "sInfo": "Showing _START_ to _END_ of _TOTAL_ rows",
-	    "sLengthMenu":"Display _MENU_ rows",
-	    "sLoadingRecords":"<img src='../../regulation/static/imgs/dark-slow-wheel.gif'></img>"
-
-	  },
-	"aaSorting": [],
-	"bPaginate" : false, 
-	"bAutoWidth" : false,
-//	"bProcessing": true,
-//	"bDeferRender": true,
-	"oTableTools": {
-			"sSwfPath": "../../regulation/static/js/swf/copy_csv_xls_pdf.swf",
-			"aButtons": ["copy",
-				     {"sExtends": "csv",
-					"sTitle": file },
-					{"sExtends": "pdf",
-					  "sTitle": file},
-					"print",
-				]
-	},
-
-};
-
-	pagination_dT = {
+	dataTable_params = {
 	"sDom": 'l<"clear">Tfrtip<"clear">',
 	  "oLanguage": {
 	    "sSearch": "Filter: ",
 	    "sInfo": "Showing _START_ to _END_ of _TOTAL_ rows",
 	    "sLengthMenu":"Display _MENU_ rows",	
-	    "sLoadingRecords": "<img src='../../regulation/static/imgs/dark-slow-wheel.gif'></img>"
+	    "sLoadingRecords": "<img src='../../regulation/static/imgs/dark-slow-wheel.gif'></img>",
+	    //	    "sEmptyTable": "No records found"
 	  },
-	"sPaginationType": "bootstrap",
+
 	"aaSorting": [],
 	"bAutoWidth": false,
-//	"bProcessing": false,
-//	"bDeferRender": true,
 	"oTableTools": {
 			"sSwfPath": "../../regulation/static/js/swf/copy_csv_xls_pdf.swf",
 			"aButtons": ["copy",

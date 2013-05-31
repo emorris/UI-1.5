@@ -73,11 +73,12 @@ function load_bind_logo(query, protein) {
 		
 	$.getJSON(web_services_url +'regulation/logos/'+query)
 	.done(function(data) {
-		if ($.isEmptyObject(data)) {
-		//	console.log("Empty logo obj");
-			hide_nav('binding-site-seq-logos');
+			if ($.isEmptyObject(data)) {
+		//	//	console.log("Empty logo obj");
+		//		hide_nav('binding-site-seq-logos');
+			    $('#binding-site-seq-logos').append("<div><h5>No Binding site logs available.</h5></div>");
 
-		} else {
+			} else {
 
 		$.each(data, function(index, row) {
 			var img_name = $.trim(row);
@@ -97,8 +98,7 @@ function load_bind_logo(query, protein) {
 		$("#expt-binding-sites").append("<h4>View binding sites in <a href='" + gbrowse_url + "' target='_blank'>GBrowse</a>.</h4>");
 
 		$('span#binding-sites-nav').replaceWith("<li id='binding-site-seq-logos-li'><a href='#binding-site-seq-logos'>Binding Site Motifs</a></li>");
-	
-		} // end else
+			} // end else
 	refresh_scrollspy();
 	});
 }
@@ -132,14 +132,16 @@ function load_reg_targets(query, protein) {
 			$("#regulatory-targets").append("<table id='regulatory-targets-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>Reference</th><th>Source</th></tr></thead><tbody>");
 
 			var target_table_params = new Object();
-	
+			target_table_params = dataTable_params;
+			target_table_params.oLanguage.sEmptyTable = 'No regulatory targets found';
+
 			if (num_targets > 10) {
 	
-				target_table_params = pagination_dT;
+			    target_table_params.bPaginate = "false"; 
 
 			} else {
 
-				target_table_params = no_pagination_dT;
+			    target_table_params.sPaginationType = "bootstrap";
 			}
 			
 			target_table_params.aoColumns = [null, null, null, null, null];		   
@@ -147,7 +149,7 @@ function load_reg_targets(query, protein) {
 
 			targetTable = $('#regulatory-targets-table').dataTable(target_table_params);
 	
-		
+		       	refresh_scrollspy();
 		} else { // end if > 0
 
 		hide_nav('regulatory-targets'); 
@@ -181,28 +183,20 @@ function load_go_processes(query, protein) {
 
 		var go_table_params = new Object();
 
-		go_table_params = pagination_dT;
+		go_table_params = dataTable_params;
+		go_table_params.oLanguage.sEmptyTable = 'No significant shared GO processes found';
+		go_table_params.sPaginationType = "bootstrap";
 		go_table_params.aoColumns = [null, {"sWidth":"20%", "sType": "scientific"},{"sWidth": "15%"}];		   
 		go_table_params.sAjaxSource = web_services_url + 'regulation/shared_go_process/' + feat;
 		goTable = $('#GO-table').dataTable(go_table_params);
 
+		refresh_scrollspy();
+
 	} else {
-		hide_nav('shared-GO-processes');
+	    //	hide_nav('shared-GO-processes');
 		refresh_scrollspy();
 	}
 
-	});
-
-	$.getJSON(web_services_url + 'regulation/shared_go_process/' + feat)
-	.done(function(go_data) {
-
-		if ($.isEmptyObject(go_data) || go_data.aaData.length == 0) {
-
-				console.log('No GO processes returned');
-				hide_nav('shared-GO-processes');
-		}
-
-		refresh_scrollspy();
 	});
 
 } // end go_processes
@@ -216,6 +210,7 @@ function load_domains(feat_name, protein) {
 	var protein = protein;
 	var jaspar = new Object();
 
+
 	console.log('trying to load domains');
 
 	$.getJSON(web_services_url + 'regulation/domain/' + query)
@@ -224,6 +219,7 @@ function load_domains(feat_name, protein) {
 		if ($.isEmptyObject(domain_data)) {
 			console.log('No domain info retrieved.');
 			hide_nav('domains');
+		       	refresh_scrollspy();
 		} else {
 
 			console.log('retrieved domain info');
@@ -235,13 +231,15 @@ function load_domains(feat_name, protein) {
 
 			
 			var domain_table_params = new Object();
+			domain_table_params = dataTable_params;
+			domain_table_params.oLanguage.sEmptyTable = 'No domains and motifs found';
 
 			if (domain_data.aaData.length > 10) {
-				domain_table_params = pagination_dT;
+			    domain_table_params.sPaginationType = 'bootstrap';
 	
 			} else {
 
-				domain_table_params = no_pagination_dT;
+			    domain_table_params.bPaginate = 'false';
 			}
 
 			domain_table_params.bAutoWidth = false;
@@ -255,8 +253,9 @@ function load_domains(feat_name, protein) {
 			
 			$("#domains").append("<div class='spacer'></div>");
 
+			refresh_scrollspy();	
 		} // end else
-	refresh_scrollspy();
+
 	});
 }
 
@@ -278,15 +277,18 @@ function load_regulators(query,feat_title) {
 
 			
 		$("#regulators").append("<table id='regulator-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>Reference</th><th>Source</th></tr></thead><tbody>");
-	var reg_table_params = new Object();
+
+		var reg_table_params = new Object();
+		reg_table_params = dataTable_params;
+		reg_table_params.oLanguage.sEmptyTable = 'No regulators found';
 
 		if (num_regulators > 10) {
 
-			reg_table_params = pagination_dT;
+		    reg_table_params.sPaginationType = 'bootstrap';
 
 		} else {
 
-			reg_table_params = no_pagination_dT;
+			reg_table_params.bPaginate = 'false';
 		}
 
 		reg_table_params.sAjaxSource= web_services_url + 'regulation/regulator/' + query; 
@@ -298,7 +300,7 @@ function load_regulators(query,feat_title) {
 		reg_oTable = $('#regulator-table').dataTable(reg_table_params);
 
 		refresh_scrollspy();
-
+			
 	} else {// end if statement;
 	
 		hide_nav('regulators');
