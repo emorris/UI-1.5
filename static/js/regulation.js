@@ -1,13 +1,14 @@
  $(document).ready ( function() {
 
-	 console.log('query: ' + display_name);
+	 //	 console.log('query: ' + display_name);
+	 //	 console.log('dbid: ' + dbid);
 
 	load_summary(dbid); 
 	load_go_processes(dbid, protein_name);
 	load_domains(dbid, protein_name);
 	load_bind_logo(dbid, protein_name);
-	load_reg_targets(dbid, protein_name);
-	load_regulators(dbid, title_name);
+	 load_reg_targets(dbid, protein_name);
+	 load_regulators(dbid, title_name);
 
 
  $('#page-nav').affix({
@@ -76,7 +77,7 @@ function load_bind_logo(query, protein) {
 			if ($.isEmptyObject(data)) {
 		//	//	console.log("Empty logo obj");
 		//		hide_nav('binding-site-seq-logos');
-			    $('#binding-site-seq-logos').append("<div><h5>No Binding site logs available.</h5></div>");
+			    $('#binding-site-seq-logos').append("<div><h5>No Binding site logos available.</h5></div>");
 
 			} else {
 
@@ -95,7 +96,7 @@ function load_bind_logo(query, protein) {
 		
 		$('#binding-site-seq-logos').append("<div id='expt-binding-sites'></div>");
 		
-		$("#expt-binding-sites").append("<h4>View binding sites in <a href='" + gbrowse_url + "' target='_blank'>GBrowse</a>.</h4>");
+		$("#expt-binding-sites").append("<h4>View predicted binding sites in the <a href='" + gbrowse_url + display_name + "_* ' target='_blank'>Genome Browser</a>.</h4>");
 
 		$('span#binding-sites-nav').replaceWith("<li id='binding-site-seq-logos-li'><a href='#binding-site-seq-logos'>Binding Site Motifs</a></li>");
 			} // end else
@@ -152,7 +153,7 @@ function load_reg_targets(query, protein) {
 		       	refresh_scrollspy();
 		} else { // end if > 0
 
-		hide_nav('regulatory-targets'); 
+	       	hide_nav('regulatory-targets'); 
 		refresh_scrollspy();
 
 		} // end else
@@ -184,16 +185,19 @@ function load_go_processes(query, protein) {
 		var go_table_params = new Object();
 
 		go_table_params = dataTable_params;
+		// console.log("go: "+ go_table_params.sDom);
 		go_table_params.oLanguage.sEmptyTable = 'No significant shared GO processes found';
 		go_table_params.sPaginationType = "bootstrap";
 		go_table_params.aoColumns = [null, {"sWidth":"20%", "sType": "scientific"},{"sWidth": "15%"}];		   
 		go_table_params.sAjaxSource = web_services_url + 'regulation/shared_go_process/' + feat;
-		goTable = $('#GO-table').dataTable(go_table_params);
+		// console.log("go2: "+ go_table_params.sAjaxSource);
+
+	goTable = $('#GO-table').dataTable(go_table_params);
 
 		refresh_scrollspy();
 
 	} else {
-	    //	hide_nav('shared-GO-processes');
+	    	hide_nav('shared-GO-processes');
 		refresh_scrollspy();
 	}
 
@@ -211,7 +215,7 @@ function load_domains(feat_name, protein) {
 	var jaspar = new Object();
 
 
-	console.log('trying to load domains');
+	//	console.log('trying to load domains');
 
 	$.getJSON(web_services_url + 'regulation/domain/' + query)
 	.done(function(domain_data) {
@@ -222,7 +226,7 @@ function load_domains(feat_name, protein) {
 		       	refresh_scrollspy();
 		} else {
 
-			console.log('retrieved domain info');
+		    //			console.log('retrieved domain info');
 	
 			$("#domains").append("<hr>");
 

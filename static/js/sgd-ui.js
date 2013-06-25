@@ -4,10 +4,18 @@
 num_reg_targets = "";
 
 $(document).ready( function() {
+	
+	//	$.curCSS = function (element, attrib, val) {
+	//	$(element).css(attrib, val);
+	//	};
 
 	$('#main-header').load('http://fasolt.stanford.edu/cgi-bin/toolbar.pl');
-	$('#footer-holder').load('http://fasolt.stanford.edu/cgi-bin/footer.pl');
+       	$('#footer-holder').load('http://fasolt.stanford.edu/cgi-bin/footer.pl?no_js=1');
 
+	//	console.log("footer:" + $.load('http://fasolt.stanford.edu/cgi-bin/footer.pl'));
+	$('#page-nav').affix({
+		offset:$('#page-nav').position()
+		    });
 	query = $('#query').val();
 
 	console.log('q=' + query);
@@ -22,11 +30,11 @@ $(document).ready( function() {
 	filename = title_name + "_Regulation";
 	file = filename.replace("/","_");
 	
-	pubmed_url = 'http://www.ncbi.nlm.nih.gov/pubmed/';
-	ref_url = 'http://yeastgenome.org/cgi-bin/reference/reference.pl?pubmed=';
-	feat_url = 'http://yeastgenome.org/cgi-bin/locus.fpl?dbid=';
-	go_url = 'http://yeastgenome.org/cgi-bin/GO/goTerm.pl?goid=';
-	gbrowse_url = 'http://browse.yeastgenome.org/'
+		pubmed_url = 'http://www.ncbi.nlm.nih.gov/pubmed/';
+		ref_url = 'http://yeastgenome.org/cgi-bin/reference/reference.pl?pubmed=';
+	//	feat_url = 'http://yeastgenome.org/cgi-bin/locus.fpl?dbid=';
+	//	go_url = 'http://yeastgenome.org/cgi-bin/GO/goTerm.pl?goid=';
+		gbrowse_url = 'http://browse.yeastgenome.org/cgi-bin/gbrowse/scgenome/?name=';
 	
 // for dataTable parameters //
 
@@ -37,9 +45,7 @@ $(document).ready( function() {
 	    "sInfo": "Showing _START_ to _END_ of _TOTAL_ rows",
 	    "sLengthMenu":"Display _MENU_ rows",	
 	    "sLoadingRecords": "<img src='../../regulation/static/imgs/dark-slow-wheel.gif'></img>",
-	    //	    "sEmptyTable": "No records found"
 	  },
-
 	"aaSorting": [],
 	"bAutoWidth": false,
 	"oTableTools": {
@@ -78,10 +84,12 @@ $(document).ready( function() {
 
 	$('.close_link').replaceWith('</a>');
 
+	// 	$('#page-content').scrollspy();
 
 }); // end document ready function
 
 $(document).ajaxStop(function() {
+
 	console.log("all ajax is done");
 	refresh_scrollspy();
 });
@@ -105,7 +113,7 @@ function open_new_window(url) {
 
 function refresh_scrollspy() {
 //	$('body').scrollspy('refresh');
-
+    $("#page-nav a:first").tab('show');
 
    $('[data-spy="scroll"]').each(function () {
     var $spy = $(this).scrollspy('refresh')

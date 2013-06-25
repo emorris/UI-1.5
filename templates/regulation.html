@@ -5,8 +5,8 @@
 {% block page_title %}	<div id="page-title">
 
 		<h1><red>{{ title }}</red> Regulation</h1>
-		<a href="/help/PhysGenIntDetailsHelp.html" class="help">
-			<img src="http://fasolt.stanford.edu/images/icon_help_circle_dark.png" alt="Help">
+		<a href="/help/function-help/regulation " class="help">
+			<img src="/images/icon_help_circle_dark.png" alt="Help">
 		</a>
 		</div>
 {% endblock %}
@@ -21,21 +21,21 @@
 		{% include "regulation-tabs.html" %}
 		</div> <!-- end row -->
 
-		<div class='container-fluid'>
+		<div class='container' id='nav-with-content'>
 		<div class='row'>
 			
 		{% include "stacked-nav.html" %}
 
 
-		<div id="page-content" class='span9'> 
+		<div id="page-content" class='span9'>
 		
 			<section id='summary'></section>
 			<section id='refs'></section>			
 			<section id='domains'></section>
-				<section id='binding-site-seq-logos'></section> 
-				<section id='regulatory-targets'></section>
-				<section id='shared-GO-processes'></section>
-				<section id='regulators'></section>
+			<section id='binding-site-seq-logos'></section> 
+			<section id='regulatory-targets'></section>
+			<section id='shared-GO-processes'></section>
+			<section id='regulators'></section>
 	
 			</div><!-- #page-content -->
 			
