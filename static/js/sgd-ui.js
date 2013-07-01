@@ -35,7 +35,7 @@ $(document).ready( function() {
 	//	feat_url = 'http://yeastgenome.org/cgi-bin/locus.fpl?dbid=';
 	//	go_url = 'http://yeastgenome.org/cgi-bin/GO/goTerm.pl?goid=';
 		gbrowse_url = 'http://browse.yeastgenome.org/cgi-bin/gbrowse/scgenome/?name=';
-	
+		// end global variables //
 // for dataTable parameters //
 
 	dataTable_params = {
@@ -50,13 +50,6 @@ $(document).ready( function() {
 	"bAutoWidth": false,
 	"oTableTools": {
 			"sSwfPath": "../../regulation/static/js/swf/copy_csv_xls_pdf.swf",
-			"aButtons": ["copy",
-				     {"sExtends": "csv",
-					"sTitle": file },
-					{"sExtends": "pdf",
-					  "sTitle": file},
-					"print",
-				]
 	}
 
 };

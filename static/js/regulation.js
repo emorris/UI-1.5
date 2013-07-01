@@ -18,7 +18,6 @@
 
 }); // end document ready
 
-
 //********** LOAD SUMMARY AND REFS **********************//
 function load_summary(query) {
 	var query = query;
@@ -67,11 +66,7 @@ function load_bind_logo(query, protein) {
 	var prot_name = protein;
 	
 	$('#binding-site-seq-logos').append("<hr>");
-
-	$('#binding-site-seq-logos').append("<h2>" + prot_name + 
-	" Binding Site Motifs</h2><div><em> \
-	Click on a motif to view <a href='http://yetfasco.ccbr.utoronto.ca'>YeTFaSCo</a> record</em></div>");
-		
+$('#binding-site-seq-logos').append("<h2>" + prot_name + " Binding Site Motifs</h2>");
 	$.getJSON(web_services_url +'regulation/logos/'+query)
 	.done(function(data) {
 			if ($.isEmptyObject(data)) {
@@ -81,6 +76,9 @@ function load_bind_logo(query, protein) {
 
 			} else {
 
+			    $('#binding-site-seq-logos').append("<div><em> \
+	Click on a motif to view <a href='http://yetfasco.ccbr.utoronto.ca' target='_blank'>YeTFaSCo</a> record</em></div>");
+	        
 		$.each(data, function(index, row) {
 			var img_name = $.trim(row);
 
@@ -91,15 +89,34 @@ function load_bind_logo(query, protein) {
 
 //		//	console.log(row + "* NEW URL: " + url );
 		
-			$('#binding-site-seq-logos').append('<a href="' + url + '"><img class="yetfasco"  src="/regulation/static//imgs/YeTFaSCo_Logos/' + row + '" alt="Binding Site Sequence Logo"></a>');
+			$('#binding-site-seq-logos').append('<a href="' + url + '" target="blank"><img class="yetfasco"  src="/regulation/static//imgs/YeTFaSCo_Logos/' + row + '" alt="Binding Site Sequence Logo"></a>');
 		});
 		
 		$('#binding-site-seq-logos').append("<div id='expt-binding-sites'></div>");
-		
-		$("#expt-binding-sites").append("<h4>View predicted binding sites in the <a href='" + gbrowse_url + display_name + "_* ' target='_blank'>Genome Browser</a>.</h4>");
 
+	
 		$('span#binding-sites-nav').replaceWith("<li id='binding-site-seq-logos-li'><a href='#binding-site-seq-logos'>Binding Site Motifs</a></li>");
-			} // end else
+	       } // end else
+
+			//   console.log("check gbrowse: ");
+			//   $.get(gbrowse_url + display_name + "_*&enable=SGD PMW motifs")
+			//	   .always(function(data) {
+			//		   var page_title = data;
+	   
+			//		  $.each(data, function(key, value) {
+			//			  console.log("checking gbrowse: " + key + ":" + value);
+			//	           })
+	   
+		       //  var has_gbrowse = _check_gbrowse(display_name);
+	       
+		       // console.log("has: ");
+
+		       //if (_check_gbrowse(display_name) == 1) {
+		
+		    $("#expt-binding-sites").append("<h4>View predicted binding sites in the <a href='" + gbrowse_url + display_name + "_*&enable=SGD PMW motifs' target='_blank'>Genome Browser</a>.</h4>");
+		    //      	}
+		    //	   });
+
 	refresh_scrollspy();
 	});
 }
@@ -131,11 +148,20 @@ function load_reg_targets(query, protein) {
 		//CREATE empty datatables
 
 			$("#regulatory-targets").append("<table id='regulatory-targets-table'><thead><tr><th>Systematic name</th><th>Gene name</th><th>Evidence</th><th>Reference</th><th>Source</th></tr></thead><tbody>");
+		
 
 			var target_table_params = new Object();
 			target_table_params = dataTable_params;
+			var table_name = "_Regulatory_targets";
+			target_table_params.oTableTools.aButtons = ["copy",
+								    {"sExtends": "csv",
+								     "sTitle": file + table_name},
+								    {"sExtends": "pdf",
+								     "sTitle": file + table_name + ".pdf"},
+								    "print",];
 			target_table_params.oLanguage.sEmptyTable = 'No regulatory targets found';
 
+		   
 			if (num_targets > 10) {
 	
 			    target_table_params.bPaginate = "false"; 
@@ -185,6 +211,15 @@ function load_go_processes(query, protein) {
 		var go_table_params = new Object();
 
 		go_table_params = dataTable_params;
+	
+		var table_name = "_shared_GO_processes";		
+		go_table_params.oTableTools.aButtons = ["copy",
+	       						    {"sExtends": "csv",
+	       						     "sTitle": file + table_name},
+	       						    {"sExtends": "pdf",
+		       					     "sTitle": file + table_name + ".pdf"},
+		       					    "print",];
+		
 		// console.log("go: "+ go_table_params.sDom);
 		go_table_params.oLanguage.sEmptyTable = 'No significant shared GO processes found';
 		go_table_params.sPaginationType = "bootstrap";
@@ -236,6 +271,16 @@ function load_domains(feat_name, protein) {
 			
 			var domain_table_params = new Object();
 			domain_table_params = dataTable_params;
+
+		       	var table_name = "_Domains_motifs";
+			domain_table_params.oTableTools.aButtons = ["copy",
+								    {"sExtends": "csv",
+								     "sTitle": file + table_name},
+								    {"sExtends": "pdf",
+								     "sTitle": file + table_name + ".pdf"},
+								    "print",];
+		
+
 			domain_table_params.oLanguage.sEmptyTable = 'No domains and motifs found';
 
 			if (domain_data.aaData.length > 10) {
@@ -284,6 +329,15 @@ function load_regulators(query,feat_title) {
 
 		var reg_table_params = new Object();
 		reg_table_params = dataTable_params;
+
+		var table_name = "_Regulators";		
+		reg_table_params.oTableTools.aButtons = ["copy",
+	       						    {"sExtends": "csv",
+	       						     "sTitle": file + table_name},
+	       						    {"sExtends": "pdf",
+		       					     "sTitle": file + table_name + ".pdf"},
+		       					    "print",];
+
 		reg_table_params.oLanguage.sEmptyTable = 'No regulators found';
 
 		if (num_regulators > 10) {

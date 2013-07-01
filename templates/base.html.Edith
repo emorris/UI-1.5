@@ -8,7 +8,8 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>{% block title %}{% endblock %}</title>
 		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width,
+					       initial-scale=1">
 
 		<!-- link rel="stylesheet" href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.all.css' -->
 		
@@ -16,16 +17,23 @@
 		<link rel="stylesheet" href="{{ url_for('static', filename='js/DataTables-1.9.4/media/css/demo_table.css') }}">	
 
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap.css') }}">
-	
+		<link rel='stylesheet' href='../css/jquery.autocomplete.css'>
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/TableTools.css') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 	
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static',
+					     filename='css/style.css')
+					     }}">
 
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script src="{{ url_for('static', filename='js/modernizr-2.6.2-respond-1.1.0.min.js') }}"></script>
 
+		<script src="{{ url_for('static', filename='js/jquery.autocomplete.js') }}"></script>
+
 </head>
-<body data-spy="scroll" data-target=".sidenav" data-offset="110">
+  <body data-spy="scroll" data-target="#page-nav-container"
+	data-target='.sidenav' data-offset="110">
+  <!-- data-offset="110" -->
 
 <!--[if lt IE 7]>
 	<p class="chromeframe">You are using an <strong>outdated</strong> browser. 
@@ -51,24 +59,30 @@
 {% block page_content %} {{ query }}{% endblock %}
 
 <hr>
+
 <section id='footer-holder'></section>
 
 <!-- javascript -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.js">
+<!-- script --
+  -- --
+  --src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.js"></script -->
 
-<script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/jquery.min.js')}}"><\/script>')</script>
+<!-- <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/jquery.min.js')}}"><\/script>')</script>
+-->
 
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/sgd-ui.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/DT_bootstrap.js') }}"></script> 
-<script src="{{ url_for('static', filename='js/TableTools-2.1.5/media/js/TableTools.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/TableTools-2.1.5/media/js/TableTools.min.js')}}"></script>
 <script src="{{ url_for('static', filename='js/dataTables-sorting-plugins.js') }}"></script>
 <script src="{{ url_for('static', filename='js/paging.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.xdomainajax.js')}}"></script>
 
-	
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+<script src="http://fasolt.stanford.edu/javascript/www.js"></script>
+
 {% block special_js %}{% endblock %}
 
 	<!-- Uncomment for Google Analytics
