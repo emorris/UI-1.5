@@ -265,14 +265,14 @@ function load_domains(feat_name, protein) {
 	
 			$("#domains").append("<hr>");
 
-			$("#domains").append("<h2>"+protein+ " Domains and Motifs (" + domain_data.aaData.length + " total)</h2>" +
+			$("#domains").append("<h2>"+protein+ " Domains and Classification (" + domain_data.aaData.length + " total)</h2>" +
 				"<div><table id='domain-table'><thead><tr><th>Protein coordinates</th><th>Accession ID</th><th>Description</th><th>Source</th></tr></thead><tbody>");
 
 			
 			var domain_table_params = new Object();
 			domain_table_params = dataTable_params;
 
-		       	var table_name = "_Domains_motifs";
+		       	var table_name = "_Domains_classification";
 			domain_table_params.oTableTools.aButtons = ["copy",
 								    {"sExtends": "csv",
 								     "sTitle": file + table_name},
