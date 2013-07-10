@@ -292,9 +292,12 @@ function load_domains(feat_name, protein) {
 			}
 
 			domain_table_params.bAutoWidth = false;
-			domain_table_params.aoColumns = [
-				{"sWidth":"10%", "sType":"numeric"}, null, null, null
-				];
+				domain_table_params.aoColumns = [
+								 {"sWidth": '10%', "sType":"natural"}, 
+								 null, 
+								 null,
+								 null
+					];
 			
 			domain_table_params.sAjaxSource= web_services_url +'regulation/domain/' + query; 
 

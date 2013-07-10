@@ -32,7 +32,7 @@ def display_image(img):
                            dbid  = gene_json['dbid'])
 
 def get_gene_info(query):
-    url = 'http://cherry-vm26.stanford.edu/yeastmine_backend/gene/display_name/' +query;
+    url = 'http://cherry-vm25.stanford.edu/yeastmine_backend/gene/display_name/' +query;
     request = urllib2.urlopen(url)
     data = request.read()
    

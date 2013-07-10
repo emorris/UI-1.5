@@ -9,8 +9,8 @@ $(document).ready( function() {
 	//	$(element).css(attrib, val);
 	//	};
 
-	$('#main-header').load('http://www.yeastgenome.org/cgi-bin/toolbar.pl');
-       	$('#footer-holder').load('http://www.yeastgenome.org/cgi-bin/footer.pl?no_js=1');
+	$('#main-header').load('http://fasolt.stanford.edu/cgi-bin/toolbar.pl');
+       	$('#footer-holder').load('http://fasolt.stanford.edu/cgi-bin/footer.pl?no_js=1');
 
 	$('#page-nav').affix({
 		offset:$('#page-nav').position()
@@ -20,7 +20,7 @@ $(document).ready( function() {
 	console.log('q=' + query);
 
 	// global variables //
-	web_services_url = 'http://cherry-vm26.stanford.edu/yeastmine_backend/';
+	web_services_url = 'http://cherry-vm25.stanford.edu/yeastmine_backend/';
 
 	display_name = $('#display').val();
 	title_name = $('#title').val();
